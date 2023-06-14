@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sisp.dao.ProjectEntityMapper">
+
+    <resultMap id="BaseResultMap" type="com.sisp.dao.entity.ProjectEntity">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
+        <result column="project_content" jdbcType="LONGVARCHAR" property="projectContent"/>
+        <result column="created_by" jdbcType="CHAR" property="createdBy"/>
+        <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate"/>
+        <result column="last_updated_by" jdbcType="CHAR" property="lastUpdatedBy"/>
+        <result column="last_updated_date" jdbcType="TIMESTAMP" property="lastUpdatedDate"/>
+    </resultMap>
+
+    <!--queryProjectList-->
+    <select id="queryProjectList" resultMap="BaseResultMap" parameterType="com.sisp.dao.entity.ProjectEntity">
+        SELECT *
+        FROM project_info
+        <where>
+            <if test="project.id != '' and project.id != null">
+                AND id = #{project.id}
+            </if>
+            <if test="project.projectName != '' and project.projectName != null">
+                AND project_name LIKE CONCAT('%', #{project.projectName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!--insert-->
+    <insert id="insert" parameterType="com.sisp.dao.entity.ProjectEntity">
+        INSERT INTO project_info (id, user_id, project_name, project_content, created_by, creation_date, last_updated_by, last_updated_date)
+        VALUES (#{id}, #{userId}, #{projectName}, #{projectContent}, #{createdBy}, now(), #{lastUpdatedBy}, now())
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.sisp.dao.entity.ProjectEntity">
+        UPDATE project_info
+        <set>
+            <if test="projectName != null">
+                project_name=#{projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectContent != null">
+                project_content=#{projectContent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by=#{lastUpdatedBy,jdbcType=CHAR},
+            </if>
+            last_updated_date=now(),
+        </set>
+        WHERE id=#{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteProjectById" parameterType="com.sisp.dao.entity.ProjectEntity">
+        DELETE FROM project_info
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+</mapper>
