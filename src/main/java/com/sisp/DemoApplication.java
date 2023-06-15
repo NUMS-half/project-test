@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.sisp.dao")
 public class DemoApplication {
 
-    //debug version
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
