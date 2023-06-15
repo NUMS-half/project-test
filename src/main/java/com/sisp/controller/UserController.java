@@ -52,15 +52,9 @@ public class UserController {
     public HttpResponseEntity queryUserList() {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         List<UserEntity> hasUser = userService.queryUserList();
-//        if ( CollectionUtils.isEmpty(hasUser) ) {
-//            httpResponseEntity.setCode("0");
-//            httpResponseEntity.setData(null);
-//            httpResponseEntity.setMessage("暂无用户信息");
-//        } else {
-            httpResponseEntity.setCode("666");
-            httpResponseEntity.setData(hasUser);
-            httpResponseEntity.setMessage("查询成功");
-//        }
+        httpResponseEntity.setCode("666");
+        httpResponseEntity.setData(hasUser);
+        httpResponseEntity.setMessage("查询成功");
         return httpResponseEntity;
     }
 
@@ -69,18 +63,8 @@ public class UserController {
      */
     @PostMapping(value = "/addUserInfo", headers = "Accept=application/json")
     public HttpResponseEntity addUser(@RequestBody UserEntity user) {
-        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         int result = userService.addUserInfo(user);
-        if ( result != 0 ) {
-            httpResponseEntity.setCode("666");
-            httpResponseEntity.setData(result);
-            httpResponseEntity.setMessage("创建成功");
-        } else {
-            httpResponseEntity.setCode("0");
-            httpResponseEntity.setData(0);
-            httpResponseEntity.setMessage("创建失败");
-        }
-        return httpResponseEntity;
+        return handleResult(result);
     }
 
     /**
@@ -91,15 +75,7 @@ public class UserController {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         try {
             int result = userService.modifyUserInfo(user);
-            if ( result != 0 ) {
-                httpResponseEntity.setCode("666");
-                httpResponseEntity.setData(result);
-                httpResponseEntity.setMessage("修改成功");
-            } else {
-                httpResponseEntity.setCode("0");
-                httpResponseEntity.setData(0);
-                httpResponseEntity.setMessage("修改失败");
-            }
+            httpResponseEntity = handleResult(result);
         } catch ( Exception e ) {
             httpResponseEntity.setCode("-1");
             httpResponseEntity.setData(0);
@@ -116,15 +92,7 @@ public class UserController {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         try {
             int result = userService.deleteUserById(user);
-            if ( result != 0 ) {
-                httpResponseEntity.setCode("666");
-                httpResponseEntity.setData(result);
-                httpResponseEntity.setMessage("删除成功");
-            } else {
-                httpResponseEntity.setCode("0");
-                httpResponseEntity.setData(0);
-                httpResponseEntity.setMessage("删除失败");
-            }
+            httpResponseEntity = handleResult(result);
         } catch ( Exception e ) {
             httpResponseEntity.setCode("-1");
             httpResponseEntity.setData(0);
@@ -132,4 +100,19 @@ public class UserController {
         }
         return httpResponseEntity;
     }
+
+    private HttpResponseEntity handleResult(int result) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        if ( result != 0 ) {
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(result);
+            httpResponseEntity.setMessage("操作成功！");
+        } else {
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("操作失败！");
+        }
+        return httpResponseEntity;
+    }
+
 }
