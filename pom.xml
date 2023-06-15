@@ -17,6 +17,7 @@
     <java.version>1.8</java.version>
     <sonar.password>030713</sonar.password>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
