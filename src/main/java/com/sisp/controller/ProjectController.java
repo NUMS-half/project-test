@@ -34,7 +34,9 @@ public class ProjectController {
                 httpResponseEntity.setMessage("查询成功");
             }
         } catch ( Exception e ) {
-            e.printStackTrace();
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("查询时发生异常，请稍后重试！");
         }
         return httpResponseEntity;
     }
@@ -85,6 +87,9 @@ public class ProjectController {
     public HttpResponseEntity deleteProjectById(@RequestBody ProjectEntity project) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         try {
+            if ( project == null ) {
+                throw new NullPointerException();
+            }
             int result = projectService.deleteProjectById(project);
             if ( result != 0 ) {
                 httpResponseEntity.setCode("666");
@@ -94,12 +99,11 @@ public class ProjectController {
                 httpResponseEntity.setCode("0");
                 httpResponseEntity.setData(0);
                 httpResponseEntity.setMessage("删除失败");
-                throw new Exception();
             }
         } catch ( Exception e ) {
-            httpResponseEntity.setCode("0");
+            httpResponseEntity.setCode("-1");
             httpResponseEntity.setData(0);
-            httpResponseEntity.setMessage("删除失败");
+            httpResponseEntity.setMessage("删除时发生异常，请稍后重试！");
         }
         return httpResponseEntity;
     }

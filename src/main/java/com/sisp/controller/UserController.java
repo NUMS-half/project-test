@@ -24,6 +24,9 @@ public class UserController {
     public HttpResponseEntity userLogin(@RequestBody UserEntity user) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         try {
+            if ( user == null ) {
+                throw new NullPointerException();
+            }
             List<UserEntity> hasUser = userService.selectUserInfo(user);
             if ( CollectionUtils.isEmpty(hasUser) ) {
                 httpResponseEntity.setCode("0");
@@ -35,7 +38,9 @@ public class UserController {
                 httpResponseEntity.setMessage("登录成功");
             }
         } catch ( Exception e ) {
-            e.printStackTrace();
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(null);
+            httpResponseEntity.setMessage("登录时发生异常，请稍后重试");
         }
         return httpResponseEntity;
     }
@@ -96,7 +101,9 @@ public class UserController {
                 httpResponseEntity.setMessage("修改失败");
             }
         } catch ( Exception e ) {
-            e.printStackTrace();
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("修改发生异常，请稍后重试！");
         }
         return httpResponseEntity;
     }
@@ -119,7 +126,9 @@ public class UserController {
                 httpResponseEntity.setMessage("删除失败");
             }
         } catch ( Exception e ) {
-            e.printStackTrace();
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("删除发生异常，请稍后重试！");
         }
         return httpResponseEntity;
     }

@@ -588,9 +588,12 @@ class DemoApplicationTests {
         user2.setPassword("111111");
         HttpResponseEntity result2 = userController.userLogin(user2);
 
+        HttpResponseEntity result3 = userController.userLogin(null);
+
         //assertions
         assertEquals("666", result1.getCode());
         assertEquals("0", result2.getCode());
+        assertEquals("-1", result3.getCode());
     }
 
     @Test
@@ -620,29 +623,38 @@ class DemoApplicationTests {
 
     @Test
     void testUserControllerModifyUserInfo() {
-        UserEntity user = new UserEntity();
-        user.setId("e051b86740dc4c49978240a558433938");
-        user.setPassword("update2");
+        UserEntity user1 = new UserEntity();
+        user1.setId("e051b86740dc4c49978240a558433938");
+        user1.setPassword("update2");
 
-        HttpResponseEntity result = userController.modifyUserInfo(user);
-        assertEquals("666", result.getCode());
+        UserEntity user2 = new UserEntity();
+        user2.setId("0");
+        user2.setPassword("update3");
 
-        user.setId("0");
-        result = userController.modifyUserInfo(user);
-        assertEquals("0", result.getCode());
+        HttpResponseEntity result1 = userController.modifyUserInfo(user1);
+        HttpResponseEntity result2 = userController.modifyUserInfo(user2);
+        HttpResponseEntity result3 = userController.modifyUserInfo(null);
+
+        assertEquals("666", result1.getCode());
+        assertEquals("0", result2.getCode());
+        assertEquals("-1", result3.getCode());
     }
 
     @Test
     void testUserControllerDeleteUser() {
-        UserEntity user = new UserEntity();
-        user.setId("111111111");
+        UserEntity user1 = new UserEntity();
+        user1.setId("111111111");
 
-        HttpResponseEntity result = userController.deleteUser(user);
-        assertEquals("666", result.getCode());
+        UserEntity user2 = new UserEntity();
+        user2.setId("0");
 
-        user.setId("0");
-        result = userController.deleteUser(user);
-        assertEquals("0", result.getCode());
+        HttpResponseEntity result1 = userController.deleteUser(user1);
+        HttpResponseEntity result2 = userController.deleteUser(user2);
+        HttpResponseEntity result3 = userController.deleteUser(null);
+
+        assertEquals("666", result1.getCode());
+        assertEquals("0", result2.getCode());
+        assertEquals("-1", result3.getCode());
     }
 
     /**
@@ -654,12 +666,14 @@ class DemoApplicationTests {
         ProjectEntity project = new ProjectEntity();
         project.setProjectName("我打赌你找不到这个项目");
 
-        HttpResponseEntity result = projectController.queryProjectList(new ProjectEntity());
+        HttpResponseEntity result1 = projectController.queryProjectList(new ProjectEntity());
         HttpResponseEntity result2 = projectController.queryProjectList(project);
+        HttpResponseEntity result3 = projectController.queryProjectList(null);
 
         //assertions
-        assertEquals("666", result.getCode());
+        assertEquals("666", result1.getCode());
         assertEquals("0", result2.getCode());
+        assertEquals("-1", result3.getCode());
     }
 
     @Test
@@ -696,15 +710,19 @@ class DemoApplicationTests {
 
     @Test
     void testProjectControllerDeleteProjectById() {
-        ProjectEntity project = new ProjectEntity();
-        project.setId("111111111");
+        ProjectEntity project1 = new ProjectEntity();
+        project1.setId("111111111");
 
-        HttpResponseEntity result = projectController.deleteProjectById(project);
-        assertEquals("666", result.getCode());
+        ProjectEntity project2 = new ProjectEntity();
+        project2.setId("0");
 
-        project.setId("0");
-        result = projectController.deleteProjectById(project);
-        assertEquals("0", result.getCode());
+        HttpResponseEntity result1 = projectController.deleteProjectById(project1);
+        HttpResponseEntity result2 = projectController.deleteProjectById(project2);
+        HttpResponseEntity result3 = projectController.deleteProjectById(null);
+
+        assertEquals("666", result1.getCode());
+        assertEquals("0", result2.getCode());
+        assertEquals("-1", result3.getCode());
     }
 
 }
