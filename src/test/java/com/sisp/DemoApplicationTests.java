@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
@@ -388,6 +389,7 @@ class DemoApplicationTests {
      */
 
     @Test
+    @Transactional
     void testUserServiceAddUserInfo() {
         UserEntity user = new UserEntity();
         user.setUsername("t" + new Random().nextInt(10000) + 1);
@@ -406,6 +408,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testUserServiceModifyUserInfo() {
         UserEntity user = new UserEntity();
         user.setId("e051b86740dc4c49978240a558433938");
@@ -424,6 +427,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testUserServiceDeleteUserById() {
         UserEntity user = new UserEntity();
         user.setId("123456789");
@@ -481,6 +485,7 @@ class DemoApplicationTests {
      */
 
     @Test
+
     void testProjectServiceQueryProjectList() {
         ProjectEntity project1 = new ProjectEntity();
         ProjectEntity project2 = new ProjectEntity();
@@ -509,6 +514,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testProjectServiceAddProjectInfo() {
         ProjectEntity project = new ProjectEntity();
         project.setProjectName("t" + new Random().nextInt(10000) + 1);
@@ -530,6 +536,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testProjectServiceModifyProjectInfo() {
         ProjectEntity project = new ProjectEntity();
         ProjectEntity project2 = new ProjectEntity();
@@ -556,6 +563,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testProjectServiceDeleteProjectById() {
         ProjectEntity project = new ProjectEntity();
         project.setId("123456789");
@@ -605,6 +613,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testUserControllerAddUser() {
         UserEntity user = new UserEntity();
         user.setId(UUIDUtil.getOneUUID());
@@ -622,6 +631,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testUserControllerModifyUserInfo() {
         UserEntity user1 = new UserEntity();
         user1.setId("e051b86740dc4c49978240a558433938");
@@ -641,6 +651,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testUserControllerDeleteUser() {
         UserEntity user1 = new UserEntity();
         user1.setId("111111111");
@@ -677,6 +688,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testProjectControllerAddProjectInfo() {
         ProjectEntity project = new ProjectEntity();
         ProjectEntity project2 = new ProjectEntity();
@@ -694,6 +706,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testProjectControllerModifyProjectInfo() {
         ProjectEntity project1 = new ProjectEntity();
         ProjectEntity project2 = new ProjectEntity();
@@ -709,6 +722,7 @@ class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     void testProjectControllerDeleteProjectById() {
         ProjectEntity project1 = new ProjectEntity();
         project1.setId("111111111");
