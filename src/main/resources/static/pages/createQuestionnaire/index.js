@@ -1,16 +1,41 @@
 onload = () => {
-  $('#headerUsername').text($util.getItem('userInfo').username)
-  $('#headerDivB').text('创建问卷')
+    $('#headerUsername').text($util.getItem('userInfo').username)
+    loadProjectSelect()
+    $('#headerDivB').text('创建问卷')
+}
+
+let projectList = []
+
+const loadProjectSelect = ()=> {
+    $.ajax({
+        url: API_BASE_URL + '/queryQuestionnaireList',
+        type: "POST",
+        data: JSON.stringify(null),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            projectList = res.data
+
+            $('#content').html('')
+
+            res.data.map(item => {
+                $('#selectLeo').append(`
+                <option value="1">项目一</option>-->
+                <button type="button" class="btn btn-link" onclick="onCreateQuestionnaire('${item.id}')">创建问卷</button>
+            `)
+            })
+        }
+    })
 }
 
 const onCreateTemplate = () => {
-  location.href = "/pages/createNewQuestionnaire/index.html"
+    location.href = "/pages/createNewQuestionnaire/index.html"
 }
 
 const importHistoryQuestionnaire = () => {
-  $('#divider').css('display', 'flex')
-  $('#templateB').html('')
-  $('#templateB').append(`
+    $('#divider').css('display', 'flex')
+    $('#templateB').html('')
+    $('#templateB').append(`
     <div class="template-item">
       <div class="item-t">
         <img class="img" src="../../static/images/blank_template.png">
@@ -27,9 +52,9 @@ const importHistoryQuestionnaire = () => {
 }
 
 const surveyTypeTemplate = () => {
-  $('#divider').css('display', 'flex')
-  $('#templateB').html('')
-  $('#templateB').append(`
+    $('#divider').css('display', 'flex')
+    $('#templateB').html('')
+    $('#templateB').append(`
     <div class="template-item">
       <div class="item-t">
         <img class="img" src="../../static/images/blank_template.png">
@@ -59,9 +84,9 @@ const surveyTypeTemplate = () => {
 }
 
 const createTemplate = () => {
-  $('#createTemplateModal').modal('show')
+    $('#createTemplateModal').modal('show')
 }
 
 const handleEdit = () => {
-  open('/pages/designQuestionnaire/index.html')
+    open('/pages/designQuestionnaire/index.html')
 }
