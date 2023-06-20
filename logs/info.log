@@ -1079,3 +1079,14 @@
 2023-06-20 08:58:00[ INFO ]>>test UserMapper: queryUserList用户列表查询测试成功
 2023-06-20 08:58:00[ INFO ]>>test ProjectService: addProjectInfo项目添加测试成功
 2023-06-20 10:37:01[ INFO ]>>test QuestionnaireService: queryQuestionnaireList问卷查询列表测试成功
+2023-06-20 11:17:19[ ERROR ]>>test QuestionnaireService: addQuestionnaireInfo添加问卷测试失败
+2023-06-20 11:25:00[ ERROR ]>>test QuestionnaireService: addQuestionnaireInfo添加问卷测试失败
+2023-06-20 11:30:36[ ERROR ]>>test QuestionnaireService: modifyQuestionnaireInfo项目修改测试失败
+2023-06-20 11:31:58[ ERROR ]>>test QuestionnaireService: modifyQuestionnaireInfo项目修改测试失败
+2023-06-20 11:32:46[ ERROR ]>>test QuestionnaireService: modifyQuestionnaireInfo项目修改测试失败
+2023-06-20 11:37:51[ ERROR ]>>test QuestionnaireService: addQuestionnaireInfo添加问卷测试失败
+2023-06-20 11:41:06[ ERROR ]>>test QuestionnaireService: addQuestionnaireInfo添加问卷测试失败
+2023-06-20 11:41:53[ ERROR ]>>test QuestionnaireService: addQuestionnaireInfo添加问卷测试失败
+2023-06-20 11:45:03[ INFO ]>>test QuestionnaireService: addQuestionnaireInfo添加问卷测试成功
+2023-06-20 11:45:53[ ERROR ]>>test QuestionnaireService: modifyQuestionnaireInfo项目修改测试失败
+2023-06-20 11:47:16[ ERROR ]>>test QuestionnaireService: modifyQuestionnaireInfo项目修改测试失败
