@@ -1078,3 +1078,4 @@
 2023-06-20 08:57:59[ INFO ]>>test ProjectMapper: deleteProjectById项目删除测试成功
 2023-06-20 08:58:00[ INFO ]>>test UserMapper: queryUserList用户列表查询测试成功
 2023-06-20 08:58:00[ INFO ]>>test ProjectService: addProjectInfo项目添加测试成功
+2023-06-20 10:37:01[ INFO ]>>test QuestionnaireService: queryQuestionnaireList问卷查询列表测试成功

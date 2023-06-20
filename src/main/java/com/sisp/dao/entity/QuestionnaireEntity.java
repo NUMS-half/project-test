@@ -23,7 +23,7 @@ public class QuestionnaireEntity {
 
     private String projectId;
 
-    private QuestionnaireType type;
+    private int type;
 
     private Date startTime;
 
