@@ -3,7 +3,6 @@ package com.sisp.service;
 import com.sisp.common.utils.UUIDUtil;
 import com.sisp.dao.QuestionnaireEntityMapper;
 import com.sisp.dao.entity.QuestionnaireEntity;
-import com.sisp.dao.entity.QuestionnaireType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
