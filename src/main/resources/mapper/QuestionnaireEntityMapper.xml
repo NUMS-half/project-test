@@ -43,10 +43,10 @@
         UPDATE questionnaire_info
         <set>
             <if test="status != null">
-                status=#{status,javaType=TINYINT}
+                status=#{status,jdbcType=TINYINT}
             </if>
         </set>
-        WHERE id=#{id,javaType=VARCAHR}
+        WHERE id=#{id,jdbcType=VARCHAR}
     </update>
 
 </mapper>

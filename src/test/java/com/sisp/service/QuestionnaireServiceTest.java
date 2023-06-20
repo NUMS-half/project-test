@@ -1,6 +1,5 @@
 package com.sisp.service;
 
-import com.sisp.common.utils.UUIDUtil;
 import com.sisp.dao.entity.QuestionnaireEntity;
 
 import org.apache.log4j.Logger;
@@ -96,8 +95,8 @@ public class QuestionnaireServiceTest {
     @Test
     public void modifyQuestionnaireInfo() {
         QuestionnaireEntity questionnaire = new QuestionnaireEntity();
-        questionnaire.setId("5");
-        questionnaire.setStatus(0);
+        questionnaire.setId("b8f86c4eb82d4eb09963edc9004ed2df");
+        questionnaire.setStatus(1);
 
         int result = questionnaireService.modifyQuestionnaireInfo(questionnaire);
 

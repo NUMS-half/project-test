@@ -43,6 +43,7 @@ public class QuestionnaireService {
         try {
             result = questionnaireEntityMapper.updateByPrimaryKeySelective(questionnaire);
         } catch ( Exception e ) {
+            e.printStackTrace();
             return 0;
         }
         return result;
