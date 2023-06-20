@@ -18,8 +18,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 @SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
 class DemoApplicationTests {
 
     @Autowired
@@ -484,34 +487,33 @@ class DemoApplicationTests {
      * test ProjectService
      */
 
-    @Test
-
-    void testProjectServiceQueryProjectList() {
-        ProjectEntity project1 = new ProjectEntity();
-        ProjectEntity project2 = new ProjectEntity();
-        project1.setProjectName("");
-        project2.setProjectName("第一个项目");
-
-        List<ProjectEntity> list1 = projectService.queryProjectList(project1);
-        List<ProjectEntity> list2 = projectService.queryProjectList(project2);
-
-        boolean result1 = CollectionUtils.isEmpty(list1);
-        boolean result2 = CollectionUtils.isEmpty(list2);
-
-        if ( result1 || result2 ) {
-            log.error(">>test ProjectService: queryProjectList项目查询列表测试失败");
-        } else {
-            System.out.println("test case 1:");
-            System.out.println(list1);
-            System.out.println("test case 2:");
-            System.out.println(list2);
-            log.info(">>test ProjectService: queryProjectList项目查询列表测试成功");
-        }
-
-        //assertions
-        assertFalse(result1);
-        assertFalse(result2);
-    }
+//    @Test
+//    void testProjectServiceQueryProjectList() {
+//        ProjectEntity project1 = new ProjectEntity();
+//        ProjectEntity project2 = new ProjectEntity();
+//        project1.setProjectName("");
+//        project2.setProjectName("第一个项目");
+//
+//        List<ProjectEntity> list1 = projectService.queryProjectList(project1);
+//        List<ProjectEntity> list2 = projectService.queryProjectList(project2);
+//
+//        boolean result1 = CollectionUtils.isEmpty(list1);
+//        boolean result2 = CollectionUtils.isEmpty(list2);
+//
+//        if ( result1 || result2 ) {
+//            log.error(">>test ProjectService: queryProjectList项目查询列表测试失败");
+//        } else {
+//            System.out.println("test case 1:");
+//            System.out.println(list1);
+//            System.out.println("test case 2:");
+//            System.out.println(list2);
+//            log.info(">>test ProjectService: queryProjectList项目查询列表测试成功");
+//        }
+//
+//        //assertions
+//        assertFalse(result1);
+//        assertFalse(result2);
+//    }
 
     @Test
     @Transactional

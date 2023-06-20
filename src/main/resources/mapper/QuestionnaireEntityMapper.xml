@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sisp.dao.QuestionnaireEntityMapper">
+
+    <resultMap id="BaseResultMap" type="com.sisp.dao.entity.QuestionnaireEntity">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="questionnaire_name" jdbcType="VARCHAR" property="questionnaireName"/>
+        <result column="questionnaire_description" jdbcType="LONGVARCHAR" property="questionnaireDescription"/>
+        <result column="created_by" jdbcType="CHAR" property="createdBy"/>
+        <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate"/>
+        <result column="project_id" jdbcType="VARCHAR" property="projectId"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="startTime" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="endTime" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+    </resultMap>
+
+    <!--queryQuestionnaireList-->
+    <select id="queryQuestionnaireList" resultMap="BaseResultMap" parameterType="com.sisp.dao.entity.QuestionnaireEntity">
+        SELECT *
+        FROM questionnaire_info
+        <where>
+            <if test="questionnaire.id != '' and questionnaire.id != null">
+                AND id = #{questionnaire.id}
+            </if>
+            <if test="questionnaire.questionnaireName != '' and questionnaire.questionnaireName != null">
+                AND questionnaire_name LIKE CONCAT('%', #{questionnaire.questionnaireName}, '%')
+            </if>
+            <if test="questionnaire.projectId != '' and questionnaire.projectId != null">
+                AND project_id LIKE CONCAT('%', #{questionnaire.projectId}, '%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
