@@ -10,17 +10,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class QuestionnaireServiceTest {
     @Autowired
-    QuestionnaireService questionnaireService=new QuestionnaireService();
+    QuestionnaireService questionnaireService = new QuestionnaireService();
 
     Logger log = Logger.getLogger(QuestionnaireServiceTest.class);
+
+    /**
+     * 测试查询问卷列表
+     */
     @Test
     public void queryQuestionnaireList() {
         QuestionnaireEntity questionnaire1 = new QuestionnaireEntity();
@@ -30,17 +36,17 @@ public class QuestionnaireServiceTest {
         questionnaire2.setQuestionnaireName("爱好调查问卷");
         questionnaire3.setId("1");
 
-        List<QuestionnaireEntity> list1=questionnaireService.queryQuestionnaireList(questionnaire1);
-        List<QuestionnaireEntity> list2=questionnaireService.queryQuestionnaireList(questionnaire2);
-        List<QuestionnaireEntity> list3=questionnaireService.queryQuestionnaireList(questionnaire3);
+        List<QuestionnaireEntity> list1 = questionnaireService.queryQuestionnaireList(questionnaire1);
+        List<QuestionnaireEntity> list2 = questionnaireService.queryQuestionnaireList(questionnaire2);
+        List<QuestionnaireEntity> list3 = questionnaireService.queryQuestionnaireList(questionnaire3);
 
-        boolean result1=  CollectionUtils.isEmpty(list1);
-        boolean result2=  CollectionUtils.isEmpty(list2);
-        boolean result3=  CollectionUtils.isEmpty(list3);
+        boolean result1 = CollectionUtils.isEmpty(list1);
+        boolean result2 = CollectionUtils.isEmpty(list2);
+        boolean result3 = CollectionUtils.isEmpty(list3);
 
-        if(result1||result2||result3){
+        if (result1 || result2 || result3) {
             log.error(">>test QuestionnaireService: queryQuestionnaireList问卷查询列表测试失败");
-        }else{
+        } else {
             System.out.println("根据项目id查询");
             System.out.println(list1);
             System.out.println("根据问卷名称查询");
@@ -54,5 +60,53 @@ public class QuestionnaireServiceTest {
         //assertions
         assertFalse(result1);
         assertFalse(result2);
+    }
+
+    /**
+     * 测试添加问卷
+     */
+    @Test
+    public void addQuestionnaireInfo() {
+        QuestionnaireEntity questionnaire = new QuestionnaireEntity();
+        questionnaire.setQuestionnaireName("追星情况调查问卷");
+        questionnaire.setQuestionnaireDescription("追星情况");
+        questionnaire.setCreatedBy("admin");
+        questionnaire.setCreationDate(new Date());
+        questionnaire.setProjectId("333333");
+        questionnaire.setType(0);
+        questionnaire.setStartTime(new Date());
+        questionnaire.setEndTime(new Date());
+
+        int result = questionnaireService.addQuestionnaireInfo(questionnaire);
+
+        if (result == 0) {
+            log.error(">>test QuestionnaireService: addQuestionnaireInfo添加问卷测试失败");
+        } else {
+            log.info(">>test QuestionnaireService: addQuestionnaireInfo添加问卷测试成功");
+        }
+
+        //assertion
+        assertEquals(1, result);
+    }
+
+    /**
+     * 修改问卷信息
+     */
+    @Test
+    public void modifyQuestionnaireInfo() {
+        QuestionnaireEntity questionnaire = new QuestionnaireEntity();
+        questionnaire.setId("b8f86c4eb82d4eb09963edc9004ed2df");
+        questionnaire.setStatus(1);
+
+        int result = questionnaireService.modifyQuestionnaireInfo(questionnaire);
+
+        if (result == 0) {
+            log.error(">>test QuestionnaireService: modifyQuestionnaireInfo项目修改测试失败");
+        } else {
+            log.info(">>test QuestionnaireService: modifyQuestionnaireInfo项目修改测试成功");
+        }
+
+        //assertion
+        assertEquals(1, result);
     }
 }
