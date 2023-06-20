@@ -60,4 +60,23 @@ public class QuestionnaireController {
         }
         return httpResponseEntity;
     }
+
+    /**
+     * 修改问卷
+     */
+    @PostMapping(value = "/modifyQuestionnaireInfo", headers = "Accept=application/json")
+    public HttpResponseEntity modifyQuestionnaireInfo(@RequestBody QuestionnaireEntity questionnaire) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        int result = questionnaireService.modifyQuestionnaireInfo(questionnaire);
+        if ( result != 0 ) {
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(result);
+            httpResponseEntity.setMessage("编辑成功");
+        } else {
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("编辑失败,请检查您的输入是否合法！");
+        }
+        return httpResponseEntity;
+    }
 }
