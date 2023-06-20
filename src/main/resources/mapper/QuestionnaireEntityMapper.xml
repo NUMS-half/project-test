@@ -32,4 +32,21 @@
         </where>
     </select>
 
+    <!--insert-->
+    <insert id="insert" parameterType="com.sisp.dao.entity.QuestionnaireEntity">
+        INSERT INTO questionnaire_info (id, questionnaire_name, questionnaire_description, created_by, creation_date, project_id, type, start_time, end_time, status)
+        VALUES (#{id}, #{questionnaireName}, #{questionnaireDescription}, #{createdBy}, #{creationDate}, #{projectId}, #{type}, #{startTime}, #{endTime}, #{status})
+    </insert>
+
+    <!--updateByPrimaryKeySelective-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.sisp.dao.entity.QuestionnaireEntity">
+        UPDATE questionnaire_info
+        <set>
+            <if test="status != null">
+                status=#{status,javaType=TINYINT}
+            </if>
+        </set>
+        WHERE id=#{id,javaType=VARCAHR}
+    </update>
+
 </mapper>
