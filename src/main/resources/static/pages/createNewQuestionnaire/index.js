@@ -20,22 +20,35 @@ onload = () => {
     })
 }
 
-const handleCreateQuestionnaire = ()=> {
-    if(!$('#surveyName').val()) return alert('调查名称不能为空！')
-    if(!$('#surveyDescription').val()) return alert('调查描述不能为空！')
-    if (!($('#startTime').val() && new Date($('#startTime').val()).getTime())) return alert('开始时间不能为空！')
-    if (!($('#endTime').val() && new Date($('#endTime').val()).getTime())) return alert('结束时间不能为空！')
+const handleCreateQuestionnaire = () => {
+    let userInfo = $util.getItem("userInfo")
+    let params = {
+        questionnaireName: $('#surveyName').val(),
+        questionnaireDescription: $('#surveyDescription').val(),
+        createdBy: userInfo.username,
+        projectId: $util.getPageParam("selectProject"),
+        type: $util.getPageParam("selectType"),
+        status: 1
+    }
+
+    if (!params.questionnaireName) return alert('调查名称不能为空！')
+    if (!params.questionnaireDescription) return alert('调查描述不能为空！')
+    if (!($('#startDate').val() && new Date($('#startDate').val()).getTime())) return alert('开始时间不能为空！')
+    if (!($('#endDate').val() && new Date($('#endDate').val()).getTime())) return alert('结束时间不能为空！')
+
+    params.startTime = $('#startDate').val() && new Date($('#startDate').val()).getTime();
+    params.endTime = $('#endDate').val() && new Date($('#endDate').val()).getTime();
 
     $.ajax({
-        url: API_BASE_URL + '/',
+        url: API_BASE_URL + '/addQuestionnaireInfo',
         type: "POST",
         data: JSON.stringify(params),
         dataType: "json",
         contentType: "application/json",
         success(res) {
-            if (res.code === "666"){
+            if (res.code === "666") {
                 alert('创建成功！')
-                location.href = ''
+                location.href = '/pages/designQuestionnaire/index.html'
             } else {
                 alert(res.message)
             }

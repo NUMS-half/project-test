@@ -20,5 +20,9 @@
     <mappers>
         <mapper resource="mapper/UserEntityMapper.xml"/>
         <mapper resource="mapper/ProjectEntityMapper.xml"/>
+        <mapper resource="mapper/QuestionnaireEntityMapper.xml"/>
+        <mapper resource="mapper/QuestionEntityMapper.xml"/>
+        <mapper resource="mapper/OptionEntityMapper.xml"/>
+        <mapper resource="mapper/AnswerEntityMapper.xml"/>
     </mappers>
 </configuration>

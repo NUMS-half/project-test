@@ -6,29 +6,33 @@ onload = () => {
 
 let projectList = []
 
-const loadProjectSelect = ()=> {
+const loadProjectSelect = () => {
+    let params = {
+        createdBy: $util.getItem('userInfo').username
+    }
     $.ajax({
-        url: API_BASE_URL + '/queryQuestionnaireList',
+        url: API_BASE_URL + '/queryProjectList',
         type: "POST",
-        data: JSON.stringify(null),
+        data: JSON.stringify(params),
         dataType: "json",
         contentType: "application/json",
         success(res) {
             projectList = res.data
-
-            $('#content').html('')
+            let selectId = $util.getPageParam("projectInfo")
 
             res.data.map(item => {
-                $('#selectLeo').append(`
-                <option value="1">项目一</option>-->
-                <button type="button" class="btn btn-link" onclick="onCreateQuestionnaire('${item.id}')">创建问卷</button>
-            `)
+                $('#selectLeo').append(`<option value="${item.id}">${item.projectName}</option>`)
+                if (selectId === item.id) {
+                    $('#selectLeo').val(item.id);
+                }
             })
         }
     })
 }
 
-const onCreateTemplate = () => {
+const onCreateTemplate = (projectId, type) => {
+    $util.setPageParam("selectProject", projectId)
+    $util.setPageParam("selectType", type)
     location.href = "/pages/createNewQuestionnaire/index.html"
 }
 

@@ -4,12 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @ToString
-public class QuestionnaireEntity {
+public class QuestionnaireEntity implements Serializable {
 
     private String id;
 
@@ -28,6 +29,8 @@ public class QuestionnaireEntity {
     private Date startTime;
 
     private Date endTime;
+
+    private Date publishTime;
 
     private int status;
 

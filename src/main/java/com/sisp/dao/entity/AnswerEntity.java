@@ -4,10 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+import java.util.Date;
+
 @Getter
 @Setter
 @ToString
-public class AnswerEntity {
+public class AnswerEntity implements Serializable {
 
     private QuestionType type;
 
@@ -16,4 +19,8 @@ public class AnswerEntity {
     private String optionId;
 
     private String fillContent;
+
+    private String respondent;
+
+    private Date answerTime;
 }

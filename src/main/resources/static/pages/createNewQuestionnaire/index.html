@@ -13,6 +13,7 @@
   <script src="../../static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
   <script src="../../static//bootstrap-3.4.1/js/bootstrap-datetimepicker.min.js"></script>
   <script src="../../static//bootstrap-3.4.1/js/bootstrap-datetimepicker.zh-CN.js"></script>
+  <script src="../../my-config.js"></script>
 </head>
 <body>
   <div id="headerPage"></div>
@@ -35,7 +36,7 @@
         <label for="startTime" class="col-sm-2 control-label">开始时间：</label>
         <div class="col-sm-4">
           <div class='input-group date' id='startTime'>
-            <input type='text' class="form-control" placeholder="请选择开始时间" />
+            <input id="startDate" type='text' class="form-control" placeholder="请选择开始时间" />
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </span>
@@ -44,7 +45,7 @@
         <label for="endTime" class="col-sm-2 control-label">结束时间：</label>
         <div class="col-sm-4">
           <div class='input-group date' id='endTime'>
-            <input type='text' class="form-control" placeholder="请选择结束时间" />
+            <input id="endDate" type='text' class="form-control" placeholder="请选择结束时间" />
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </span>

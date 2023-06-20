@@ -16,7 +16,8 @@
     </resultMap>
 
     <!--queryQuestionnaireList-->
-    <select id="queryQuestionnaireList" resultMap="BaseResultMap" parameterType="com.sisp.dao.entity.QuestionnaireEntity">
+    <select id="queryQuestionnaireList" resultMap="BaseResultMap"
+            parameterType="com.sisp.dao.entity.QuestionnaireEntity">
         SELECT *
         FROM questionnaire_info
         <where>
@@ -29,19 +30,25 @@
             <if test="questionnaire.projectId != '' and questionnaire.projectId != null">
                 AND project_id LIKE CONCAT('%', #{questionnaire.projectId}, '%')
             </if>
+            AND status = 1
         </where>
     </select>
 
     <!--insert-->
     <insert id="insert" parameterType="com.sisp.dao.entity.QuestionnaireEntity">
-        INSERT INTO questionnaire_info (id, questionnaire_name, questionnaire_description, created_by, creation_date, project_id, type, start_time, end_time, status)
-        VALUES (#{id}, #{questionnaireName}, #{questionnaireDescription}, #{createdBy}, now(), #{projectId}, #{type}, #{startTime}, #{endTime}, #{status})
+        INSERT INTO questionnaire_info (id, questionnaire_name, questionnaire_description, created_by, creation_date,
+                                        project_id, type, start_time, end_time, publish_time, status)
+        VALUES (#{id}, #{questionnaireName}, #{questionnaireDescription}, #{createdBy}, now(), #{projectId}, #{type},
+                #{startTime}, #{endTime}, #{publishTime}, #{status})
     </insert>
 
     <!--updateByPrimaryKeySelective-->
     <update id="updateByPrimaryKeySelective" parameterType="com.sisp.dao.entity.QuestionnaireEntity">
         UPDATE questionnaire_info
         <set>
+            <if test="publishTime != null">
+                publish_time=#{publishTime,jdbcType=TIMESTAMP}
+            </if>
             <if test="status != null">
                 status=#{status,jdbcType=TINYINT}
             </if>

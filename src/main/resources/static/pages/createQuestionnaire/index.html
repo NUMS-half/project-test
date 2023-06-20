@@ -21,12 +21,6 @@
       <div class="text">所属项目：</div>
       <div class="value">
         <select id="selectLeo" class="form-control form-control-placeholder">
-<!--          <option value="0" disabled selected hidden>请选择</option>-->
-<!--          <option value="1">项目一</option>-->
-<!--          <option value="2">项目二</option>-->
-<!--          <option value="3">项目三</option>-->
-<!--          <option value="4">项目四</option>-->
-<!--          <option value="5">项目五</option>-->
         </select>
       </div>
     </div>
@@ -34,8 +28,7 @@
       <div class="text">调查类型：</div>
       <div class="value">
         <select id="selectType" class="form-control form-control-placeholder">
-          <option value="-1" disabled selected hidden>请选择</option>
-          <option value="0">学生</option>
+          <option value="0" selected>学生</option>
           <option value="1">老师</option>
         </select>
       </div>
@@ -52,7 +45,7 @@
             </div>
           </div>
           <div class="item-b">
-            <button type="button" class="btn btn-default" onclick="onCreateTemplate()">创 建</button>
+            <button type="button" class="btn btn-default" onclick="onCreateTemplate($('#selectLeo').val(), $('#selectType').val())">创 建</button>
           </div>
         </div>
         <div class="template-item">
