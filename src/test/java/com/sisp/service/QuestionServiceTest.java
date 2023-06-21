@@ -35,12 +35,14 @@ public class QuestionServiceTest {
         question.setQuestionDescription("问题题目");
         question.setMustAnswer(false);
         question.setType(1);
+        question.setQuestionIndex(1);
 
         QuestionEntity question2 = new QuestionEntity();
         question2.setQuestionnaireId("01333ddfa45845dbbc0ee3b5642f81e9");
         question2.setQuestionDescription("问题题目");
         question2.setMustAnswer(false);
         question2.setType(1);
+        question.setQuestionIndex(2);
 
         list.add(question);
         list.add(question2);
