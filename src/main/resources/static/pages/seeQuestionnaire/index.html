@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>答卷人信息</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="../../static/bootstrap-3.4.1/css/bootstrap.min.css">
+    <script src="../../static/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+    <script src="../../static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+    <script src="../../my-config.js"></script>
+</head>
+<body>
+<div id="searchForm">
+    <input type="text" id="searchInput" placeholder="输入答卷人信息">
+    <button onclick="search()">搜索</button>
+</div>
+
+<div id="tableContainer">
+    <table id="dataTable">
+        <thead>
+        <tr>
+            <th>问卷名称</th>
+            <th>答卷人</th>
+            <th>答卷时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 这里将通过JavaScript动态添加表格数据 -->
+        </tbody>
+    </table>
+</div>
+
+<div id="pagination">
+    <!-- 这里将通过JavaScript动态生成分页链接 -->
+</div>
+
+<script type="module" src="../../utils/index.js"></script>
+<script src="./index.js"></script>
+</body>
+</html>

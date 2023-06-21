@@ -8,10 +8,48 @@
         <result column="choose_term" jdbcType="LONGVARCHAR" property="chooseTerm"/>
         <result column="fraction" jdbcType="LONGVARCHAR" property="fraction"/>
     </resultMap>
-
+    <!--addOption-->
     <insert id="insert" parameterType="com.sisp.dao.entity.OptionEntity">
         INSERT INTO option_info (id, question_id, choose_term, fraction)
         VALUES (#{id}, #{questionId}, #{chooseTerm}, #{fraction})
     </insert>
+
+    <!--    updateOption-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.sisp.dao.entity.OptionEntity">
+        UPDATE option_info
+        <set>
+            <if test="id != null">
+                id=#{id,jdbcType=VARCHAR},
+            </if>
+            <if test="questionId != null">
+                question_id=#{questionId,jdbcType=VARCHAR},
+            </if>
+            <if test="chooseTerm != null">
+                choose_term=#{chooseTerm,jdbcType=LONGNVARCHAR},
+            </if>
+            <if test="fraction != null">
+                fraction=#{fraction,jdbcType=LONGNVARCHAR},
+            </if>
+            last_updated_date=now(),
+        </set>
+        WHERE id=#{id,jdbcType=VARCHAR}
+    </update>
+
+    <!--    queryOptionList-->
+    <select id="queryOptionList" resultType="com.sisp.dao.entity.OptionEntity">
+        SELECT *
+        FROM option_info
+        <where>
+            <if test="option.id != '' and option.id != null">
+                AND id = #{option.id}
+            </if>
+            <if test="option.questionId != '' and option.questionId != null">
+                AND question_id = #{option.questionId}
+            </if>
+            <if test="option.chooseTerm != '' and option.chooseTerm != null">
+                AND chooser_term = #{option.chooseTerm}
+            </if>
+        </where>
+    </select>
 
 </mapper>
