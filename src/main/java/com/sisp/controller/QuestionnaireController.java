@@ -116,6 +116,7 @@ public class QuestionnaireController {
             question.setMustAnswer(mustAnswers[j]);
             question.setType(types[j]);
             question.setLeftTitle(leftTitles[j]);
+            question.setQuestionIndex(j + 1);
 
             questionEntityList.add(question);
         }
@@ -133,20 +134,16 @@ public class QuestionnaireController {
             }
         }
         int result3 = optionService.insertBatch(optionEntityList);
-        
-        
 
-        System.out.println(result1);
-
-//        if ( result != 0 ) {
-//            httpResponseEntity.setCode("666");
-//            httpResponseEntity.setData(result);
-//            httpResponseEntity.setMessage("编辑成功");
-//        } else {
-//            httpResponseEntity.setCode("0");
-//            httpResponseEntity.setData(0);
-//            httpResponseEntity.setMessage("编辑失败,请检查您的输入是否合法！");
-//        }
+        if ( result1 != 0 && result2 != 0 && result3 != 0 ) {
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(id);
+            httpResponseEntity.setMessage("编辑成功");
+        } else {
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("编辑失败,请检查您的输入是否合法！");
+        }
         return httpResponseEntity;
     }
 }
