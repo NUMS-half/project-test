@@ -17,9 +17,11 @@ public class QuestionEntity implements Serializable {
 
     private String questionDescription;
 
-    private int type;
+    private int type = -1;
 
     private String leftTitle;
 
     private boolean mustAnswer;
+
+    private int questionIndex = -1;
 }
