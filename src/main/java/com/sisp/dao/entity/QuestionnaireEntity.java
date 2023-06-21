@@ -32,6 +32,6 @@ public class QuestionnaireEntity implements Serializable {
 
     private Date publishTime;
 
-    private int status;
+    private int status = -2; //-2：默认值， -1：逻辑删除状态， 0：发布状态， 1：创建未发布状态
 
 }

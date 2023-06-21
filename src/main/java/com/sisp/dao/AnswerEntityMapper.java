@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper
-public class AnswerEntityMapper {
+public interface AnswerEntityMapper {
 }

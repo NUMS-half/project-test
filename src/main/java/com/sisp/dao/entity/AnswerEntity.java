@@ -12,7 +12,7 @@ import java.util.Date;
 @ToString
 public class AnswerEntity implements Serializable {
 
-    private QuestionType type;
+    private int type;
 
     private String questionId;
 

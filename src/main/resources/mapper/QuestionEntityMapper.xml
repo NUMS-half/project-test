@@ -2,4 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sisp.dao.QuestionEntityMapper">
 
+    <resultMap id="BaseResultMap" type="com.sisp.dao.entity.QuestionEntity">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="questionnaire_id" jdbcType="VARCHAR" property="questionnaireId"/>
+        <result column="question_description" jdbcType="VARCHAR" property="questionDescription"/>
+        <result column="type" jdbcType="LONGVARCHAR" property="type"/>
+        <result column="left_title" jdbcType="CHAR" property="leftTitle"/>
+        <result column="must_answer" jdbcType="TINYINT" property="mustAnswer"/>
+    </resultMap>
+
+    <!--insert-->
+    <insert id="insert" parameterType="com.sisp.dao.entity.QuestionEntity">
+        INSERT INTO question_info (id, questionnaire_id, question_description, type, left_title, must_answer)
+        VALUES (#{id}, #{questionnaireId}, #{questionDescription}, #{type}, #{leftTitle}, #{mustAnswer})
+    </insert>
+
+    <!--queryQuestion-->
+    <select id="queryQuestion" resultMap="BaseResultMap" parameterType="com.sisp.dao.entity.QuestionEntity">
+        SELECT *
+        FROM question_info
+        <where>
+            <if test="question.id != '' and question.id != null">
+                AND id = #{question.id}
+            </if>
+            <if test="question.questionnaireId != '' and question.questionnaireId != null">
+                AND questionnaire_id = #{question.questionnaireId}
+            </if>
+            <if test="question.questionDescription != '' and question.questionDescription != null">
+                AND question_description = #{question.questionDescription}
+            </if>
+            <if test="question.type != '' and question.type != null">
+                AND type = #{question.type}
+            </if>
+            <if test="question.leftTitle != '' and question.leftTitle!= null">
+                AND left_title = #{question.leftTitle}
+            <if test="question.mustAnswer != '' and question.mustAnswer != null">
+                AND must_answer = #{question.mustAnswer}
+            </if>
+        </if>
+        </where>
+    </select>
+
+    <!--updateByPrimaryKeySelective-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.sisp.dao.entity.QuestionEntity">
+        UPDATE question_info
+        <set>
+            <if test="questionDescription != null">
+                question_description=#{questionDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="leftTitle != null">
+                left_title=#{leftTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="mustAnswer != null">
+                must_answer=#{mustAnswer,jdbcType=TINYINT},
+            </if>
+        </set>
+        WHERE id=#{id,jdbcType=VARCHAR}
+    </update>
+
+    <!--deleteQuestion-->
+    <delete id="deleteQuestion" parameterType="com.sisp.dao.entity.QuestionEntity">
+        DELETE FROM question_info
+        WHERE id=#{id,jdbcType=VARCHAR}
+    </delete>
+
 </mapper>

@@ -15,5 +15,7 @@ public class OptionEntity implements Serializable {
 
     private String questionId;
 
-    private String content;
+    private String chooseTerm;
+
+    private String fraction;
 }

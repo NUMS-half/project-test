@@ -8,8 +8,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class QuestionnaireServiceTest {
-    @Autowired
+
+    @Resource
     QuestionnaireService questionnaireService = new QuestionnaireService();
 
     Logger log = Logger.getLogger(QuestionnaireServiceTest.class);
@@ -66,6 +69,7 @@ public class QuestionnaireServiceTest {
      * 测试添加问卷
      */
     @Test
+    @Transactional
     public void addQuestionnaireInfo() {
         QuestionnaireEntity questionnaire = new QuestionnaireEntity();
         questionnaire.setQuestionnaireName("追星情况调查问卷");
@@ -93,6 +97,7 @@ public class QuestionnaireServiceTest {
      * 修改问卷信息
      */
     @Test
+    @Transactional
     public void modifyQuestionnaireInfo() {
         QuestionnaireEntity questionnaire = new QuestionnaireEntity();
         questionnaire.setId("b8f86c4eb82d4eb09963edc9004ed2df");
@@ -109,4 +114,5 @@ public class QuestionnaireServiceTest {
         //assertion
         assertEquals(1, result);
     }
+
 }

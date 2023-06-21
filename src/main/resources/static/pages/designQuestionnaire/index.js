@@ -1,5 +1,13 @@
-let questionnaireTitle = '问卷标题'
-let questionnaireDescription = '问卷说明'
+onload = () =>{
+  $('.questionnaire-title > span').text($util.getPageParam("inputName"))
+  $('.questionnaire-description > span').text($util.getPageParam("inputDescription"))
+
+  questionnaireTitle = $util.getPageParam("inputName")
+  questionnaireDescription = $util.getPageParam("inputDescription")
+}
+
+let questionnaireTitle
+let questionnaireDescription
 const problem = []
 
 /**
@@ -29,7 +37,7 @@ const onAddQuestion = (type) => {
       break;
   }
   $('#problem').append(ele)
-  problem.push({ problemName: '', mustAnswer: true, option: [{}] })
+  problem.push({ problemName: '', mustAnswer: true, option: [{}], type: 0 })
 
   $(".question").hover(() => {
     let problemIndex = $('.question:hover').attr('data-problemIndex')
@@ -223,6 +231,7 @@ const singleChoiceEditFinish = (problemIndex) => {
       </div>
     `)
   })
+  problem[problemIndex].type = 1
 }
 
 const handleAddMultipleChoice = () => {
@@ -288,6 +297,8 @@ const multipleChoiceEditFinish = (problemIndex) => {
       </div>
     `)
   })
+
+  problem[problemIndex].type = 2
 }
 
 const handleAddFillBlanks = () => {
@@ -319,6 +330,8 @@ const fillBlanksEditFinish = (problemIndex) => {
   $(`#question${problemIndex} .bottom2`).html(`
     <div style="border: 1px solid #CCCCCC; width: 50%; height: 70px;"></div>
   `)
+
+  problem[problemIndex].type = 3
 }
 
 const handleAddMatrix = () => {
@@ -407,7 +420,8 @@ const matrixEditFinish = (problemIndex) => {
       <th>${item.chooseTerm}</th>
     `)
   })
-  
+
+  problem[problemIndex].type = 4
 }
 
 const handleAddGauge = () => {
@@ -484,6 +498,8 @@ const gaugeEditFinish = (problemIndex) => {
   $(`#question${problemIndex} .bottom2`).append(`
     <div>${problem[problemIndex].option[problem[problemIndex].option.length - 1].chooseTerm}</div>
   `)
+
+  problem[problemIndex].type = 5
 }
 
 const handleModifyTitle = () => {
@@ -494,13 +510,20 @@ const handleModifyTitle = () => {
 
 
 const handleEditFinish = () => {
-  let params = {}
+  let params = {
+    id: $util.getPageParam("newId"),
+    questionnaireName: questionnaireTitle,
+    questionnaireDescription: questionnaireDescription,
+
+    questionList: problem
+  }
+  console.log(problem)
   $.ajax({
-    url: API_BASE_URL + '/modifyQuestionnaire',
+    url: API_BASE_URL + '/modifyQuestionnaireInfo',
     type: "POST",
     data: JSON.stringify(params),
     dataType: "json",
-    contentType: "application/jsoresn",
+    contentType: "application/json",
     success(res) {
       console.log(res)
     }

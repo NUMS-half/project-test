@@ -46,11 +46,17 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.sisp.dao.entity.QuestionnaireEntity">
         UPDATE questionnaire_info
         <set>
-            <if test="publishTime != null">
-                publish_time=#{publishTime,jdbcType=TIMESTAMP}
+            <if test="questionnaireName != null">
+                questionnaire_name=#{questionnaireName,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                status=#{status,jdbcType=TINYINT}
+            <if test="questionnaireDescription != null">
+                questionnaire_description=#{questionnaireDescription,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="publishTime != null">
+                publish_time=#{publishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null and status != -2">
+                status=#{status,jdbcType=TINYINT},
             </if>
         </set>
         WHERE id=#{id,jdbcType=VARCHAR}

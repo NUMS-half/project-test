@@ -1,8 +1,7 @@
 package com.sisp.dao;
 
 import com.sisp.dao.entity.QuestionnaireEntity;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,6 +18,7 @@ public interface QuestionnaireEntityMapper {
     /**
      * 添加调查问卷
      */
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(QuestionnaireEntity questionnaire);
 
     /**
