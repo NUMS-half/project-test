@@ -1,6 +1,7 @@
 package com.sisp.service;
 
 import com.sisp.dao.entity.QuestionEntity;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -18,15 +20,58 @@ public class QuestionServiceTest {
 
     @Autowired
     private QuestionService questionService;
+    Logger log = Logger.getLogger(ProjectServiceTest.class);
 
+    /**
+     * 测试添加问题
+     */
     @Test
     public void addQuestion() {
+        QuestionEntity question= new QuestionEntity();
+        question.setId("11111");
+        question.setQuestionIndex(1);
+        question.setQuestionDescription("测试问题描述");
+        question.setQuestionnaireId("5");
+        question.setType(2);
+        question.setMustAnswer(true);
+
+        int result= questionService.addQuestion(question);
+
+        if (result == 0) {
+            log.error(">>test QuestionService: addQuestion添加问题测试失败");
+        } else {
+            log.info(">>test QuestionService: addQuestion添加问题测试成功");
+        }
+
+        //assertion
+        assertEquals(1, result);
     }
 
+    /**
+     * 测试修改问题
+     */
     @Test
     public void modifyQuestion() {
+        QuestionEntity question=new QuestionEntity();
+        question.setId("9b4a9950c02746e8a117a0f5c76075b6");
+        question.setQuestionDescription("修改后的问题描述");
+
+        int result= questionService.modifyQuestion(question);
+
+        if (result == 0) {
+            log.error(">>test QuestionService: modifyQuestion修改问题测试失败");
+        } else {
+            log.info(">>test QuestionService: modifyQuestion修改问题测试成功");
+        }
+
+        //assertion
+        assertEquals(1, result);
+
     }
 
+    /**
+     * 测试批量插入问题
+     */
     @Test
     public void insertBatch() {
         List<QuestionEntity> list = new ArrayList<>();

@@ -1132,3 +1132,8 @@
 2023-06-21 13:51:44[ INFO ]>>test QuestionnaireService: modifyQuestionnaireInfo项目修改测试成功
 2023-06-21 13:51:45[ INFO ]>>test QuestionnaireService: addQuestionnaireInfo添加问卷测试成功
 2023-06-21 13:51:45[ ERROR ]>>test QuestionnaireService: queryQuestionnaireList问卷查询列表测试失败
+2023-06-22 11:59:29[ ERROR ]>>test QuestionService: addQuestion添加问题测试失败
+2023-06-22 12:00:07[ ERROR ]>>test QuestionService: addQuestion添加问题测试失败
+2023-06-22 12:01:52[ INFO ]>>test QuestionService: addQuestion添加问题测试成功
+2023-06-22 12:06:27[ INFO ]>>test QuestionService: modifyQuestion修改问题测试成功
+2023-06-23 12:23:01[ INFO ]>>test OptionService: addOption添加选项测试成功
