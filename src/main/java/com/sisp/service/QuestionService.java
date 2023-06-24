@@ -23,6 +23,13 @@ public class QuestionService {
     private SqlSessionFactory sqlSessionFactory;
 
     /**
+     * 查询问题
+     */
+    public List<QuestionEntity> queryQuestion(QuestionEntity question) {
+        return questionEntityMapper.queryQuestion(question);
+    }
+
+    /**
      * 添加问题
      */
     public int addQuestion(QuestionEntity question) {

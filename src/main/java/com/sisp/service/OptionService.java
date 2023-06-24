@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -21,6 +22,13 @@ public class OptionService {
 
     @Resource
     private SqlSessionFactory sqlSessionFactory;
+
+    /**
+     * 搜索选项
+     */
+    public List<Map<String, Object>> queryOption(OptionEntity option) {
+        return optionEntityMapper.queryOptionList(option);
+    }
 
     /**
      * 添加选项

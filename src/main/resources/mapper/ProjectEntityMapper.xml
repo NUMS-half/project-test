@@ -54,4 +54,11 @@
         DELETE FROM project_info
         WHERE id = #{id,jdbcType=VARCHAR}
     </delete>
+
+    <!--queryProjectQuestionnaire-->
+    <select id="queryProjectQuestionnaire" parameterType="com.sisp.dao.entity.ProjectEntity" resultType="java.util.HashMap">
+        SELECT pi.project_name, pi.created_by, pi.project_content, qni.id, qni.publish_time, qni.questionnaire_name, qni.status
+        FROM project_info AS pi JOIN questionnaire_info AS qni ON pi.id = qni.project_id
+        WHERE pi.id = #{project.id,jdbcType=VARCHAR} AND qni.status != -1
+    </select>
 </mapper>

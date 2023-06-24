@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProjectService {
@@ -56,5 +57,11 @@ public class ProjectService {
         return projectEntityMapper.deleteProjectById(projectEntity);
     }
 
+    /**
+     * 搜索项目，并附带所有问卷信息
+     */
+    public List<Map<String,Object>> queryProjectQuestionnaire(ProjectEntity project) {
+        return projectEntityMapper.queryProjectQuestionnaire(project);
+    }
 
 }

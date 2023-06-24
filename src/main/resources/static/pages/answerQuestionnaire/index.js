@@ -21,7 +21,7 @@ onload = () => {
             const options = problem.option;
 
             options.forEach((option) => {
-                const chooseTerm = option.chooseTerm;
+                const chooseTerm = option["choose_term"];
                 problemHTML += `
           <div style="display: flex; align-items: center; margin-bottom: 3px;">
             <label class="radio-inline">
@@ -34,7 +34,7 @@ onload = () => {
             const options = problem.option;
 
             options.forEach((option) => {
-                const chooseTerm = option.chooseTerm;
+                const chooseTerm = option["choose_term"];
                 problemHTML += `
           <div style="display: flex; align-items: center; margin-bottom: 3px;">
             <label class="checkbox-inline">
@@ -59,7 +59,7 @@ onload = () => {
       `;
 
             options.forEach((option) => {
-                const chooseTerm = option.chooseTerm;
+                const chooseTerm = option["choose_term"];
                 problemHTML += `<th>${chooseTerm}</th>`;
             });
 
@@ -97,9 +97,9 @@ onload = () => {
             const options = problem.option;
 
             options.forEach((option) => {
-                const fraction = option.fraction;
+                const fraction = option["fraction"];
                 problemHTML += `
-          <div>${option.chooseTerm}</div>
+          <div>${option["choose_term"]}</div>
           <div>
             <label class="radio-inline">
               <input type="radio" name="fraction${index + 1}" />${fraction}

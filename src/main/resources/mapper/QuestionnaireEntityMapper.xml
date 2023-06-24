@@ -30,7 +30,7 @@
             <if test="questionnaire.projectId != '' and questionnaire.projectId != null">
                 AND project_id LIKE CONCAT('%', #{questionnaire.projectId}, '%')
             </if>
-            AND status = 1
+            AND status != -1
         </where>
     </select>
 

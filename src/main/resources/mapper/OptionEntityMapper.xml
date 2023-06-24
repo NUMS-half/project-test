@@ -25,10 +25,10 @@
                 question_id=#{questionId,jdbcType=VARCHAR},
             </if>
             <if test="chooseTerm != null">
-                choose_term=#{chooseTerm,jdbcType=LONGNVARCHAR},
+                choose_term=#{chooseTerm,jdbcType=LONGVARCHAR},
             </if>
             <if test="fraction != null">
-                fraction=#{fraction,jdbcType=LONGNVARCHAR},
+                fraction=#{fraction,jdbcType=LONGVARCHAR},
             </if>
             last_updated_date=now(),
         </set>
@@ -36,7 +36,7 @@
     </update>
 
     <!--    queryOptionList-->
-    <select id="queryOptionList" resultType="com.sisp.dao.entity.OptionEntity">
+    <select id="queryOptionList" resultType="java.util.HashMap" parameterType="com.sisp.dao.entity.OptionEntity">
         SELECT *
         FROM option_info
         <where>

@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ProjectController {
@@ -104,6 +105,31 @@ public class ProjectController {
             httpResponseEntity.setCode("-1");
             httpResponseEntity.setData(0);
             httpResponseEntity.setMessage("删除时发生异常，请稍后重试！");
+        }
+        return httpResponseEntity;
+    }
+
+    /**
+     * 搜索项目，并附带所有问卷信息
+     */
+    @PostMapping(value = "/queryProjectQuestionnaire", headers = "Accept=application/json")
+    public HttpResponseEntity queryProjectQuestionnaire(@RequestBody ProjectEntity project) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        try {
+            List<Map<String, Object>> projectQuestionnaire = projectService.queryProjectQuestionnaire(project);
+            if ( CollectionUtils.isEmpty(projectQuestionnaire) ) {
+                httpResponseEntity.setCode("0");
+                httpResponseEntity.setData(null);
+                httpResponseEntity.setMessage("无项目信息");
+            } else {
+                httpResponseEntity.setCode("666");
+                httpResponseEntity.setData(projectQuestionnaire);
+                httpResponseEntity.setMessage("查询成功");
+            }
+        } catch ( Exception e ) {
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("查询时发生异常，请稍后重试！");
         }
         return httpResponseEntity;
     }

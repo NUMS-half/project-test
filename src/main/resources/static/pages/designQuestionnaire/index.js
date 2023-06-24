@@ -508,6 +508,14 @@ const handleModifyTitle = () => {
     $('#questionnaireDescription').val(questionnaireDescription)
 }
 
+const handlePreview = () => {
+    $util.setPageParam("previewTitle", questionnaireTitle)
+    $util.setPageParam("previewDescription", questionnaireDescription)
+    $util.setPageParam("problems", problem)
+    window.open('/pages/answerSheet/index.html', '_blank')
+    // location.href = '/pages/answerSheet/index.html'
+}
+
 
 const handleEditFinish = () => {
     let params = {
@@ -525,6 +533,7 @@ const handleEditFinish = () => {
         contentType: "application/json",
         success(res) {
             if (res.code === "666") {
+                alert("编辑成功，即将返回项目列表")
                 location.href = '/pages/questionnaire/index.html'
             } else {
                 alert(res.message)
