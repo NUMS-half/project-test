@@ -2,4 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sisp.dao.AnswerEntityMapper">
 
+    <resultMap id="BaseResultMap" type="com.sisp.dao.entity.AnswerEntity">
+        <id column="question_id" jdbcType="VARCHAR" property="questionId"/>
+        <id column="option_id" jdbcType="VARCHAR" property="optionId"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="fill_content" jdbcType="LONGVARCHAR" property="fillContent"/>
+        <result column="respondent" jdbcType="CHAR" property="respondent"/>
+        <result column="answer_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.sisp.dao.entity.AnswerEntity">
+        INSERT INTO answer_info (type, question_id, option_id, fill_content, respondent, answer_time)
+        VALUES (#{type}, #{questionId}, #{optionId}, #{fillContent}, #{respondent}, now());
+    </insert>
+
+    <select id="queryAnswer" parameterType="com.sisp.dao.entity.AnswerEntity" resultMap="BaseResultMap">
+        SELECT *
+        FROM answer_info
+        <where>
+            <if test="answer.type != null and answer.type != -1">
+                AND type = #{answer.type,jdbcType=INTEGER}
+            </if>
+            <if test="answer.questionId != null and answer.questionId != ''">
+                AND question_id = #{answer.questionId,jdbcType=VARCHAR}
+            </if>
+            <if test="answer.optionId != null and answer.optionId != ''">
+                AND option_id = #{answer.optionId,jdbcType=VARCHAR}
+            </if>
+            <if test="answer.fillContent != null and answer.fillContent != ''">
+                AND fill_content = #{answer.fillContent,jdbcType=LONGVARCHAR}
+            </if>
+            <if test="answer.respondent != null and answer.respondent != ''">
+                AND respondent = #{answer.respondent,jdbcType=CHAR}
+            </if>
+            <if test="answer.answerTime != null and answer.answerTime != ''">
+                AND answer_time = #{answer.answerTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+
 </mapper>

@@ -5,6 +5,8 @@ onload = () => {
     showQuestionnaires(projectId)
 }
 
+let username;
+
 const fetchProjectInfo = (id) => {
     let params = {
         id
@@ -22,6 +24,8 @@ const fetchProjectInfo = (id) => {
             $('#createTime').text(info.creationDate)
             $('#personInCharge').text(info.createdBy)
             $('#projectDescription').text(info.projectContent)
+
+            username = info.createdBy
         }
     })
 }
@@ -60,7 +64,7 @@ const handleQuestionnaireInfo = (questionnaires) => {
         // 试卷名称列
         $("<td>").text(item["questionnaire_name"]).appendTo(row);
         // 发布时间列
-        $("<td>").text(item["publish_time"]).appendTo(row);
+        let publishTimeTd = $("<td>").text(item["publish_time"]).appendTo(row);
         // 操作列
         var actionsCell = $("<td>");
 
@@ -102,7 +106,18 @@ const handleQuestionnaireInfo = (questionnaires) => {
         if (item["status"] === 0) {
             publishButton.text("查看链接")
             publishButton.attr("title", "该问卷已发布");
+
+            $("<button>")
+                .attr("type", "button")
+                .addClass("btn btn-link btn-red")
+                .text("关闭")
+                .click(function () {
+                    handleQuestionnaireClose(item["id"]);
+                })
+                .appendTo(actionsCell);
+
         } else {
+            publishTimeTd.text(null);
             publishButton.attr("title", "点击发布此问卷");
         }
 
@@ -128,6 +143,7 @@ const handleQuestionnairePreview = (id) => {
         contentType: "application/json",
         success(res) {
             if (res.code === "666") {
+                $util.setPageParam("username", username)
                 $util.setPageParam("previewTitle", res.data["questionnaireName"])
                 $util.setPageParam("previewDescription", res.data["questionnaireDescription"])
                 $util.setPageParam("problems", res.data["questionList"])
@@ -144,7 +160,28 @@ const handleQuestionnairePublish = (id, status) => {
     if ( status === 1 ) {
         if (!confirm("您确定要发布此问卷吗？")) return
 
-        //ajax
+        let params = {
+            id: id,
+            status: 0,
+            publishTime: new Date()
+        }
+
+        $.ajax({
+            url: API_BASE_URL + '/setQuestionnaireStatus',
+            type: "POST",
+            data: JSON.stringify(params),
+            dataType: "json",
+            contentType: "application/json",
+            success(res) {
+                if (res.code === "666") {
+                    fetchProjectInfo($util.getPageParam('seeProject'))
+                    showQuestionnaires($util.getPageParam('seeProject'))
+                    alert(res.message)
+                } else {
+                    alert(res.message)
+                }
+            }
+        })
     }
 
     let link = API_BASE_URL + "/questionnaireId/" + id;
@@ -189,7 +226,7 @@ const handleQuestionnairePublish = (id, status) => {
 }
 
 const handleQuestionnaireDelete = (id, status) => {
-    console.log("点击删除问卷")
+    // console.log("点击删除问卷")
     if (status === 0) {
         alert("进行中的问卷不能删除！");
         return;
@@ -219,4 +256,32 @@ const handleQuestionnaireDelete = (id, status) => {
 
 const handleQuestionnaireStatistics = (id) => {
     console.log("点击统计问卷")
+}
+
+const handleQuestionnaireClose = (id) => {
+    console.log("点击关闭问卷")
+
+    if (!confirm("您确定要关闭此问卷的发布状态吗？")) return
+
+    let params = {
+        id: id,
+        status: 1
+    }
+
+    $.ajax({
+        url: API_BASE_URL + '/setQuestionnaireStatus',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            if (res.code === "666") {
+                fetchProjectInfo($util.getPageParam('seeProject'))
+                showQuestionnaires($util.getPageParam('seeProject'))
+                alert(res.message)
+            } else {
+                alert(res.message)
+            }
+        }
+    })
 }

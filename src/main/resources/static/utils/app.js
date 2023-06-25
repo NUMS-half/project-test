@@ -5,7 +5,8 @@ const whiteList = [
   '/pages/login/index.html',
   '/pages/answerSheet/index.html',
   '/pages/answerQuestionnaire/index.html',
-  '/pages/beginAnswer/index.html'
+  '/pages/beginAnswer/index.html',
+  '/pages/error/accessDenied.html'
 ]
 
 export const loginCheck = () => {

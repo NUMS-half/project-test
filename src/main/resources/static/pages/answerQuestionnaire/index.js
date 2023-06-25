@@ -1,4 +1,5 @@
 onload = () => {
+    $('#usernameMarquee').text("当前问卷作答人：" + $util.getPageParam("username"))
     $('#questionnaireTitle').text($util.getPageParam("previewTitle"))
     $('#questionnaireDescription').text($util.getPageParam("previewDescription"))
     const problemArray = $util.getPageParam("problems");
@@ -91,11 +92,9 @@ onload = () => {
         } else if (type === 5) {
             problemHTML += `
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          
       `;
 
             const options = problem.option;
-
             options.forEach((option) => {
                 const fraction = option["fraction"];
                 problemHTML += `
@@ -122,7 +121,7 @@ onload = () => {
     });
 }
 
-const handlePreviewCommit = () => {
+const handleRealCommit = () => {
     alert("提交成功！")
     window.close();
 }

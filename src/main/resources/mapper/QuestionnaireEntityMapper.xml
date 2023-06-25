@@ -53,7 +53,7 @@
                 questionnaire_description=#{questionnaireDescription,jdbcType=LONGVARCHAR},
             </if>
             <if test="publishTime != null">
-                publish_time=#{publishTime,jdbcType=TIMESTAMP},
+                publish_time=now(),
             </if>
             <if test="status != null and status != -2">
                 status=#{status,jdbcType=TINYINT},

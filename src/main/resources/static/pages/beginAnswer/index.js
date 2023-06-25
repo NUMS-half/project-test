@@ -8,6 +8,9 @@ onload = () => {
     })
 }
 const goToAnswer = () => {
+
+    if (!$('#userNameInput').val()) return alert('您还没有输入用户名！')
+
     let params = {
         id: $util.getPageParam("id")
     }
@@ -20,6 +23,7 @@ const goToAnswer = () => {
         contentType: "application/json",
         success(res) {
             if (res.code === "666") {
+                $util.setPageParam("username", $('#userNameInput').val())
                 $util.setPageParam("previewTitle", res.data["questionnaireName"])
                 $util.setPageParam("previewDescription", res.data["questionnaireDescription"])
                 $util.setPageParam("problems", res.data["questionList"])

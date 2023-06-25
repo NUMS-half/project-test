@@ -36,12 +36,20 @@ public class QuestionnaireController {
     private HttpSession session;
 
     /**
-     * 解析请求
+     * 解析访问问卷请求
      */
-    @GetMapping(value="/questionnaireId/{id}")
+    @GetMapping(value = "/questionnaireId/{id}")
     public void handleURL(@PathVariable String id, HttpServletResponse response) throws IOException {
-        session.setAttribute("id", id);
-        response.sendRedirect("/pages/beginAnswer/index.html");
+        QuestionnaireEntity questionnaireEntity = new QuestionnaireEntity();
+        questionnaireEntity.setId(id);
+        List<QuestionnaireEntity> result = questionnaireService.queryQuestionnaireList(questionnaireEntity);
+
+        if ( result.isEmpty() || result.get(0).getStatus() != 0 ) {
+            response.sendRedirect("/pages/error/accessDenied.html");
+        } else {
+            session.setAttribute("id", id);
+            response.sendRedirect("/pages/beginAnswer/index.html");
+        }
     }
 
     @GetMapping("/getSessionData")
@@ -98,7 +106,7 @@ public class QuestionnaireController {
             List<QuestionEntity> questionInfos = questionService.queryQuestion(question);
             List<Map<String, Object>> questionList = new ArrayList<>();
 
-            for ( QuestionEntity q: questionInfos ) {
+            for ( QuestionEntity q : questionInfos ) {
                 OptionEntity option = new OptionEntity();
                 option.setQuestionId(q.getId());
                 List<Map<String, Object>> optionList = optionService.queryOption(option);
@@ -234,6 +242,30 @@ public class QuestionnaireController {
             httpResponseEntity.setCode("0");
             httpResponseEntity.setData(0);
             httpResponseEntity.setMessage("删除失败");
+        }
+        return httpResponseEntity;
+    }
+
+    /**
+     * 发布/收回问卷
+     */
+    @PostMapping(value = "/setQuestionnaireStatus", headers = "Accept=application/json")
+    public HttpResponseEntity setQuestionnaireStatus(@RequestBody QuestionnaireEntity questionnaire) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+
+        if (questionnaire.getStatus() == 1) {
+            questionnaire.setPublishTime(null);
+        }
+
+        int result = questionnaireService.modifyQuestionnaireInfo(questionnaire);
+        if ( result != 0 ) {
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(questionnaire.getId());
+            httpResponseEntity.setMessage(questionnaire.getStatus() == 0 ? "发布成功" : "关闭成功");
+        } else {
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage(questionnaire.getStatus() == 0 ? "发布失败" : "关闭失败");
         }
         return httpResponseEntity;
     }
