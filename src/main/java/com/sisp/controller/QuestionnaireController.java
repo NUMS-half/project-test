@@ -103,28 +103,13 @@ public class QuestionnaireController {
         if ( questionnaireList.isEmpty() ) {
             httpResponseEntity.setCode("0");
             httpResponseEntity.setData(null);
-            httpResponseEntity.setMessage("无项目信息");
+            httpResponseEntity.setMessage("读取失败");
         } else {
             QuestionnaireEntity questionnaireEntity = questionnaireList.get(0);
 
             List<QuestionEntity> questionInfos = questionService.queryQuestion(question);
-            List<Map<String, Object>> questionList = new ArrayList<>();
+            List<Map<String, Object>> questionList = getQuestionList(questionInfos);
 
-            for ( QuestionEntity q : questionInfos ) {
-                OptionEntity option = new OptionEntity();
-                option.setQuestionId(q.getId());
-                List<Map<String, Object>> optionList = optionService.queryOption(option);
-
-                Map<String, Object> map = new HashMap<>();
-                map.put("questionId", q.getId());
-                map.put("problemName", q.getQuestionDescription());
-                map.put("mustAnswer", q.isMustAnswer());
-                map.put("type", q.getType());
-                map.put("leftTitle", q.getLeftTitle());
-                map.put("option", optionList);
-
-                questionList.add(map);
-            }
             Map<String, Object> params = new HashMap<>();
             params.put("id", questionnaireEntity.getId());
             params.put("questionnaireName", questionnaireEntity.getQuestionnaireName());
@@ -288,6 +273,7 @@ public class QuestionnaireController {
             int type = Integer.parseInt(map.get("type").toString());
 
             AnswerEntity answer = new AnswerEntity();
+            answer.setQuestionnaireId((String) map.get("questionnaireId"));
             answer.setType(type);
             answer.setQuestionId((String) map.get("questionId"));
             answer.setRespondent((String) map.get("respondent"));
@@ -302,6 +288,7 @@ public class QuestionnaireController {
                     List<String> optionList = (ArrayList<String>) map.get("optionId");
                     for ( String id : optionList ) {
                         AnswerEntity newAnswer = new AnswerEntity();
+                        newAnswer.setQuestionnaireId(answer.getQuestionnaireId());
                         newAnswer.setType(type);
                         newAnswer.setQuestionId(answer.getQuestionId());
                         newAnswer.setRespondent(answer.getRespondent());
@@ -317,6 +304,7 @@ public class QuestionnaireController {
                     List<Map<String,Object>> optionList1 = (ArrayList<Map<String,Object>>) map.get("optionId");
                     for(Map<String,Object> m : optionList1) {
                         AnswerEntity newAnswer = new AnswerEntity();
+                        newAnswer.setQuestionnaireId(answer.getQuestionnaireId());
                         newAnswer.setType(type);
                         newAnswer.setQuestionId(answer.getQuestionId());
                         newAnswer.setRespondent(answer.getRespondent());
@@ -341,7 +329,71 @@ public class QuestionnaireController {
             httpResponseEntity.setMessage("提交失败");
         }
 
-//        System.out.println(answerEntityList);
         return httpResponseEntity;
+    }
+
+    /**
+     * 查看问卷回答明细
+     */
+    @PostMapping(value = "/seeAnswerSheet", headers = "Accept=application/json")
+    public HttpResponseEntity seeAnswerSheet(@RequestBody Map<String, Object> answerInfo){
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+
+        String questionnaireId = (String) answerInfo.get("id");
+        String respondent = (String) answerInfo.get("respondent");
+
+        AnswerEntity answer = new AnswerEntity();
+        answer.setQuestionnaireId(questionnaireId);
+        answer.setRespondent(respondent);
+
+        QuestionEntity question = new QuestionEntity();
+        question.setQuestionnaireId(questionnaireId);
+
+        QuestionnaireEntity questionnaire = new QuestionnaireEntity();
+        questionnaire.setId(questionnaireId);
+
+        questionnaire = questionnaireService.queryQuestionnaireList(questionnaire).get(0);
+        List<AnswerEntity> answerEntityList = answerService.queryAnswerList(answer);
+        List<QuestionEntity> questionEntityList = questionService.queryQuestion(question);
+
+        if ( questionnaire == null ) {
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("查看明细失败");
+        } else {
+            List<Map<String, Object>> questionOptionList = getQuestionList(questionEntityList);
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("questionnaireId", questionnaireId);
+            params.put("questionnaireName", questionnaire.getQuestionnaireName());
+            params.put("questionnaireDescription", questionnaire.getQuestionnaireDescription());
+            params.put("questionOptionList", questionOptionList);
+            params.put("answerList", answerEntityList);
+
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(params);
+            httpResponseEntity.setMessage("明细查看成功");
+        }
+        return httpResponseEntity;
+    }
+
+    private List<Map<String, Object>> getQuestionList(List<QuestionEntity> list) {
+        List<Map<String, Object>> questionList = new ArrayList<>();
+
+        for ( QuestionEntity q : list ) {
+            OptionEntity option = new OptionEntity();
+            option.setQuestionId(q.getId());
+            List<Map<String, Object>> optionList = optionService.queryOption(option);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("questionId", q.getId());
+            map.put("problemName", q.getQuestionDescription());
+            map.put("mustAnswer", q.isMustAnswer());
+            map.put("type", q.getType());
+            map.put("leftTitle", q.getLeftTitle());
+            map.put("option", optionList);
+            questionList.add(map);
+        }
+        return questionList;
     }
 }

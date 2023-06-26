@@ -10,7 +10,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -61,5 +63,11 @@ public class ProjectServiceTest {
 
     @Test
     public void deleteProjectById() {
+    }
+
+    @Test
+    public void queryQuestionnaireAnswers() {
+        List<Map<String,Object>> result = projectService.queryQuestionnaireAnswers("4cd6ccb65c894eafaa70b12330f8c2f8", "aaaaaa");
+        System.out.println(result);
     }
 }

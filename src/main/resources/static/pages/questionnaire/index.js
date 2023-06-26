@@ -31,6 +31,7 @@ const fetchProjectList = () => {
                 <button type="button" class="btn btn-link" onclick="onSeeProject('${item.id}')">查看</button>
                 <button type="button" class="btn btn-link" onclick="onEditProject('${item.id}')">编辑</button>
                 <button type="button" class="btn btn-link" onclick="onDelProject('${item.id}')">删除</button>
+                <button type="button" class="btn btn-link" onclick="onProjectStatistics('${item.id}')">统计</button>
               </div>
             </div>
             <div class="list-footer">
@@ -61,6 +62,11 @@ const onEditProject = (id) => {
     let project = projectList.filter(item => item.id === id)[0]
     $util.setPageParam('editProject', project)
     location.href = "/pages/editProject/index.html"
+}
+
+const onProjectStatistics = (id) => {
+    $util.setPageParam("projectId", id);
+    location.href = "/pages/seeQuestionnaire/index.html"
 }
 
 const onDelProject = (pid) => {

@@ -144,6 +144,7 @@ const handleQuestionnairePreview = (id) => {
         contentType: "application/json",
         success(res) {
             if (res.code === "666") {
+                $util.setPageParam("questionnaireId", res.data["id"])
                 $util.setPageParam("username", username)
                 $util.setPageParam("previewTitle", res.data["questionnaireName"])
                 $util.setPageParam("previewDescription", res.data["questionnaireDescription"])

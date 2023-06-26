@@ -63,11 +63,15 @@
     </select>
 
     <!--queryQuestionnaireAnswers-->
-    <select id="queryQuestionnaireAnswers" parameterType="com.sisp.dao.entity.ProjectEntity" resultType="java.util.HashMap">
-        SELECT DISTINCT q.id, q.questionnaire_name, a.answer_time, a.respondent
+    <select id="queryQuestionnaireAnswers" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT q.id, q.questionnaire_name, MAX(a.answer_time) AS answer_time, a.respondent
         FROM questionnaire_info q
-                 JOIN question_info qi ON q.id = qi.questionnaire_id
-                 JOIN answer_info a ON qi.id = a.question_id
-        WHERE q.project_id = #{project.id}
+        JOIN question_info qi ON q.id = qi.questionnaire_id
+        JOIN answer_info a ON qi.id = a.question_id
+        WHERE q.project_id = #{projectId}
+        <if test="respondent != null and respondent != ''">
+            AND a.respondent LIKE CONCAT('%', #{respondent}, '%')
+        </if>
+        GROUP BY q.id, q.questionnaire_name, a.respondent
     </select>
 </mapper>

@@ -6,8 +6,6 @@ onload = () => {
     $('#questionnaireDescription').text($util.getPageParam("previewDescription"))
     const problemArray = $util.getPageParam("problems");
 
-
-
     problemArray.forEach((problem, index) => {
         const questionTitle = problem.problemName;
         const mustAnswer = problem.mustAnswer;
@@ -144,6 +142,7 @@ const handleRealCommit = () => {
 
         // 根据问题类型处理回答
         let answer = {};
+        answer.questionnaireId = $util.getPageParam("questionnaireId");
         answer.type = type;
         answer.questionId = questionId;
         answer.respondent = $util.getPageParam("username");
@@ -185,7 +184,7 @@ const handleRealCommit = () => {
         answers.push(answer);
     }
 
-    // console.log(answers);
+    console.log(answers);
 
     $.ajax({
         url: API_BASE_URL + '/saveCommitAnswer',
