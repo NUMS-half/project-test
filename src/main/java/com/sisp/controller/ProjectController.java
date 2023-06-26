@@ -120,7 +120,7 @@ public class ProjectController {
             if ( CollectionUtils.isEmpty(projectQuestionnaire) ) {
                 httpResponseEntity.setCode("0");
                 httpResponseEntity.setData(null);
-                httpResponseEntity.setMessage("无项目信息");
+                httpResponseEntity.setMessage("该项目暂无问卷信息");
             } else {
                 httpResponseEntity.setCode("666");
                 httpResponseEntity.setData(projectQuestionnaire);
@@ -131,6 +131,32 @@ public class ProjectController {
             httpResponseEntity.setData(0);
             httpResponseEntity.setMessage("查询时发生异常，请稍后重试！");
         }
+        return httpResponseEntity;
+    }
+
+    /**
+     * 获取问卷回答信息
+     */
+    @PostMapping(value = "/queryQuestionnaireRespondent", headers = "Accept=application/json")
+    public HttpResponseEntity queryQuestionnaireRespondent(@RequestBody ProjectEntity project) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        try {
+            List<Map<String, Object>> questionnaireAnswers = projectService.queryQuestionnaireAnswers(project);
+            if ( CollectionUtils.isEmpty(questionnaireAnswers) ) {
+                httpResponseEntity.setCode("0");
+                httpResponseEntity.setData(null);
+                httpResponseEntity.setMessage("该项目暂无问卷的作答信息");
+            } else {
+                httpResponseEntity.setCode("666");
+                httpResponseEntity.setData(questionnaireAnswers);
+                httpResponseEntity.setMessage("查询成功");
+            }
+        } catch ( Exception e ) {
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("查询时发生异常，请稍后重试！");
+        }
+
         return httpResponseEntity;
     }
 }

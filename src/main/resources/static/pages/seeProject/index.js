@@ -44,7 +44,8 @@ const showQuestionnaires = (id) => {
             if (res.code === "666") {
                 handleQuestionnaireInfo(res.data)
             } else {
-                alert(res.message)
+                // alert(res.message)
+
             }
         }
     })
@@ -147,7 +148,7 @@ const handleQuestionnairePreview = (id) => {
                 $util.setPageParam("previewTitle", res.data["questionnaireName"])
                 $util.setPageParam("previewDescription", res.data["questionnaireDescription"])
                 $util.setPageParam("problems", res.data["questionList"])
-                location.href = '/pages/answerQuestionnaire/index.html'
+                window.open('/pages/answerQuestionnaire/index.html', '_blank')
             } else {
                 alert(res.message)
             }

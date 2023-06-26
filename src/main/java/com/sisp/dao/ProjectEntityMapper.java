@@ -39,4 +39,7 @@ public interface ProjectEntityMapper {
      */
     @MapKey("id")
     List<Map<String,Object>> queryProjectQuestionnaire(@Param("project") ProjectEntity project);
+
+    @MapKey("id")
+    List<Map<String,Object>> queryQuestionnaireAnswers(@Param("project") ProjectEntity project);
 }

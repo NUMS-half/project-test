@@ -23,4 +23,6 @@ public class AnswerEntity implements Serializable {
     private String respondent;
 
     private Date answerTime;
+
+    private String leftTitle;
 }

@@ -64,4 +64,11 @@ public class ProjectService {
         return projectEntityMapper.queryProjectQuestionnaire(project);
     }
 
+    /**
+     * 查询问卷回答信息
+     */
+    public List<Map<String,Object>> queryQuestionnaireAnswers(ProjectEntity project) {
+        return projectEntityMapper.queryQuestionnaireAnswers(project);
+    }
+
 }

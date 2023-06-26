@@ -1,9 +1,11 @@
 package com.sisp.controller;
 
 import com.sisp.beans.HttpResponseEntity;
+import com.sisp.dao.entity.AnswerEntity;
 import com.sisp.dao.entity.OptionEntity;
 import com.sisp.dao.entity.QuestionEntity;
 import com.sisp.dao.entity.QuestionnaireEntity;
+import com.sisp.service.AnswerService;
 import com.sisp.service.OptionService;
 import com.sisp.service.QuestionService;
 import com.sisp.service.QuestionnaireService;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -31,6 +32,9 @@ public class QuestionnaireController {
 
     @Autowired
     private OptionService optionService;
+
+    @Autowired
+    private AnswerService answerService;
 
     @Autowired
     private HttpSession session;
@@ -112,6 +116,7 @@ public class QuestionnaireController {
                 List<Map<String, Object>> optionList = optionService.queryOption(option);
 
                 Map<String, Object> map = new HashMap<>();
+                map.put("questionId", q.getId());
                 map.put("problemName", q.getQuestionDescription());
                 map.put("mustAnswer", q.isMustAnswer());
                 map.put("type", q.getType());
@@ -253,7 +258,7 @@ public class QuestionnaireController {
     public HttpResponseEntity setQuestionnaireStatus(@RequestBody QuestionnaireEntity questionnaire) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
 
-        if (questionnaire.getStatus() == 1) {
+        if ( questionnaire.getStatus() == 1 ) {
             questionnaire.setPublishTime(null);
         }
 
@@ -267,6 +272,76 @@ public class QuestionnaireController {
             httpResponseEntity.setData(0);
             httpResponseEntity.setMessage(questionnaire.getStatus() == 0 ? "发布失败" : "关闭失败");
         }
+        return httpResponseEntity;
+    }
+
+    /**
+     * 处理问卷提交
+     */
+    @PostMapping(value = "/saveCommitAnswer", headers = "Accept=application/json")
+    public HttpResponseEntity saveCommitAnswer(@RequestBody List<Map<String, Object>> answerList) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+
+        List<AnswerEntity> answerEntityList = new ArrayList<>();
+
+        for ( Map<String, Object> map : answerList ) {
+            int type = Integer.parseInt(map.get("type").toString());
+
+            AnswerEntity answer = new AnswerEntity();
+            answer.setType(type);
+            answer.setQuestionId((String) map.get("questionId"));
+            answer.setRespondent((String) map.get("respondent"));
+
+            switch ( type ) {
+                case 1:
+                case 5:
+                    answer.setOptionId((String) map.get("optionId"));
+                    answerEntityList.add(answer);
+                    break;
+                case 2:
+                    List<String> optionList = (ArrayList<String>) map.get("optionId");
+                    for ( String id : optionList ) {
+                        AnswerEntity newAnswer = new AnswerEntity();
+                        newAnswer.setType(type);
+                        newAnswer.setQuestionId(answer.getQuestionId());
+                        newAnswer.setRespondent(answer.getRespondent());
+                        newAnswer.setOptionId(id);
+                        answerEntityList.add(newAnswer);
+                    }
+                    break;
+                case 3:
+                    answer.setFillContent((String) map.get("fillContent"));
+                    answerEntityList.add(answer);
+                    break;
+                case 4:
+                    List<Map<String,Object>> optionList1 = (ArrayList<Map<String,Object>>) map.get("optionId");
+                    for(Map<String,Object> m : optionList1) {
+                        AnswerEntity newAnswer = new AnswerEntity();
+                        newAnswer.setType(type);
+                        newAnswer.setQuestionId(answer.getQuestionId());
+                        newAnswer.setRespondent(answer.getRespondent());
+                        newAnswer.setOptionId((String)m.get("id"));
+                        newAnswer.setLeftTitle((String) m.get("leftTitle"));
+                        answerEntityList.add(newAnswer);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        int result = answerService.insertBatch(answerEntityList);
+        if ( result != 0 ) {
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(result);
+            httpResponseEntity.setMessage("提交成功");
+        } else {
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("提交失败");
+        }
+
+//        System.out.println(answerEntityList);
         return httpResponseEntity;
     }
 }

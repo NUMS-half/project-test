@@ -61,4 +61,13 @@
         FROM project_info AS pi JOIN questionnaire_info AS qni ON pi.id = qni.project_id
         WHERE pi.id = #{project.id,jdbcType=VARCHAR} AND qni.status != -1
     </select>
+
+    <!--queryQuestionnaireAnswers-->
+    <select id="queryQuestionnaireAnswers" parameterType="com.sisp.dao.entity.ProjectEntity" resultType="java.util.HashMap">
+        SELECT DISTINCT q.id, q.questionnaire_name, a.answer_time, a.respondent
+        FROM questionnaire_info q
+                 JOIN question_info qi ON q.id = qi.questionnaire_id
+                 JOIN answer_info a ON qi.id = a.question_id
+        WHERE q.project_id = #{project.id}
+    </select>
 </mapper>

@@ -8,12 +8,13 @@
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="fill_content" jdbcType="LONGVARCHAR" property="fillContent"/>
         <result column="respondent" jdbcType="CHAR" property="respondent"/>
-        <result column="answer_time" jdbcType="TIMESTAMP"/>
+        <result column="answer_time" jdbcType="TIMESTAMP" property="answerTime"/>
+        <result column="left_title" jdbcType="LONGVARCHAR" property="leftTitle"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.sisp.dao.entity.AnswerEntity">
-        INSERT INTO answer_info (type, question_id, option_id, fill_content, respondent, answer_time)
-        VALUES (#{type}, #{questionId}, #{optionId}, #{fillContent}, #{respondent}, now());
+        INSERT INTO answer_info (type, question_id, option_id, fill_content, respondent, answer_time, left_title)
+        VALUES (#{type}, #{questionId}, #{optionId}, #{fillContent}, #{respondent}, now(), #{leftTitle});
     </insert>
 
     <select id="queryAnswer" parameterType="com.sisp.dao.entity.AnswerEntity" resultMap="BaseResultMap">
@@ -37,6 +38,9 @@
             </if>
             <if test="answer.answerTime != null and answer.answerTime != ''">
                 AND answer_time = #{answer.answerTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="answer.leftTitle != null and answer.leftTitle != ''">
+                AND left_title = #{answer.leftTitle,jdbcType=LONGVARCHAR}
             </if>
         </where>
     </select>

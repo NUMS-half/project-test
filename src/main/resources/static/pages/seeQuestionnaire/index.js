@@ -21,7 +21,7 @@ function displayTable() {
     for (var i = 0; i < recordsToShow.length; i++) {
         var record = recordsToShow[i];
         var row = document.createElement("tr");
-        row.innerHTML = "<td>" + record.name + "</td><td>" + record.respondent + "</td><td>" + record.time + "</td><td><button>操作</button></td>";
+        row.innerHTML = "<td>" + record.name + "</td><td>" + record.respondent + "</td><td>" + record.time + "</td><td><button>明细</button></td>";
         tbody.appendChild(row);
     }
 }
