@@ -1,0 +1,131 @@
+/* 通用样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #333;
+    background-color: #eaf0f6;
+}
+
+/* 容器样式 */
+.container {
+    max-width: 800px;
+    padding: 30px;
+    margin: 50px auto;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    border-radius: 7px;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #0072ff;
+    color: #fff;
+    font-size: 18px;
+}
+
+tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+/* 图表样式 */
+.chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.chart-pie, .chart-donut, .chart-bar {
+    display: inline-block;
+    height: 100%;
+    background-color: #0072ff;
+}
+
+.chart-pie {
+    border-radius: 50%;
+    width: 40px;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.chart-donut {
+    border-radius: 50%;
+    width: 40px;
+    border: 5px solid #fff;
+}
+
+.chart-bar {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.chart-details {
+    position: absolute;
+    top: 0;
+    left: 50px;
+    width: calc(100% - 55px);
+    height: 100%;
+    line-height: 40px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+    transition: font-size 0.3s ease;
+    padding-left: 10px; /* 添加 padding */
+    box-sizing: border-box; /* 让 padding 不会影响宽度 */
+}
+
+.chart-details.active-chart {
+    color: #0072ff;
+    font-size: 18px;
+}
+
+/* 图表菜单样式 */
+.chart-menu {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chart-menu button {
+    background-color: #fff;
+    color: #333;
+    font-size: 18px;
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.chart-menu button:hover, .chart-menu button.active {
+    background-color: #0072ff;
+    color: #fff;
+    box-shadow: none;
+}
+
+.chart-menu button:last-of-type {
+    margin-right: 0;
+}
