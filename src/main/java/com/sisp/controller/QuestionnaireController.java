@@ -377,6 +377,9 @@ public class QuestionnaireController {
         return httpResponseEntity;
     }
 
+    /**
+     * 对答题人是否已经作答进行检查
+     */
     @PostMapping(value = "/answeredCheck", headers = "Accept=application/json")
     public HttpResponseEntity answeredCheck(@RequestBody Map<String, Object> checkInfo) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
@@ -400,6 +403,34 @@ public class QuestionnaireController {
         return httpResponseEntity;
     }
 
+    /**
+     * 题目统计
+     */
+    @PostMapping(value = "/questionnaireStatistic", headers = "Accept=application/json")
+    public HttpResponseEntity questionnaireStatistic(@RequestBody QuestionnaireEntity questionnaire) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        try {
+            List<Map<String, Object>> questionnaireList = questionnaireService.queryQuestionStat(questionnaire);
+            if ( CollectionUtils.isEmpty(questionnaireList) ) {
+                httpResponseEntity.setCode("0");
+                httpResponseEntity.setData(null);
+                httpResponseEntity.setMessage("无问卷的题目统计信息");
+            } else {
+                httpResponseEntity.setCode("666");
+                httpResponseEntity.setData(questionnaireList);
+                httpResponseEntity.setMessage("查询成功");
+            }
+        } catch ( Exception e ) {
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("查询时发生异常，请稍后重试！");
+        }
+        return httpResponseEntity;
+    }
+
+    /**questionnaireStatistic
+     * 获取问题列表的工具方法
+     */
     private List<Map<String, Object>> getQuestionList(List<QuestionEntity> list) {
         List<Map<String, Object>> questionList = new ArrayList<>();
 

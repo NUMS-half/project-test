@@ -62,4 +62,35 @@
         WHERE id=#{id,jdbcType=VARCHAR}
     </update>
 
+    <select id="queryQuestionStat" resultType="java.util.HashMap" parameterType="com.sisp.dao.entity.QuestionnaireEntity">
+        SELECT *
+        FROM (SELECT q.questionnaire_name,
+                     qi.question_description,
+                     o.id,
+                     o.choose_term,
+                     COUNT(a.option_id) AS option_count,
+                     qi.question_index
+              FROM questionnaire_info q
+                       JOIN question_info qi ON q.id = qi.questionnaire_id
+                       JOIN answer_info a ON qi.id = a.question_id
+                       LEFT JOIN option_info o ON a.option_id = o.id
+              WHERE q.id = #{questionnaire.id}
+                AND qi.type IN (1, 2)
+              GROUP BY q.questionnaire_name, qi.question_description, o.id, o.choose_term, qi.question_index
+              UNION ALL
+              SELECT q.questionnaire_name,
+                     qi.question_description,
+                     NULL                  AS option_id,
+                     a.fill_content        AS option_text,
+                     COUNT(a.fill_content) AS option_count,
+                     qi.question_index
+              FROM questionnaire_info q
+                       JOIN question_info qi ON q.id = qi.questionnaire_id
+                       JOIN answer_info a ON qi.id = a.question_id
+              WHERE q.id = #{questionnaire.id}
+                AND qi.type = 3
+              GROUP BY q.questionnaire_name, qi.question_description, a.fill_content, qi.question_index) AS subquery
+        ORDER BY subquery.question_index
+    </select>
+
 </mapper>
