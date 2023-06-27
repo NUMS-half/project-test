@@ -3,10 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+        body {
+            padding: 20px;
+        }
+        .errorMessage {
+            /*display: flex; !* 开启flex布局 *!*/
+            justify-content: center; /* 将内容水平居中对齐 */
+            align-items: center; /* 将内容垂直居中对齐 */
+            margin-top: 175px;
+            text-align: center;
+        }
+
+        .errorMessage h1 {
+            font-size: 36px; /* 设置字体大小为36px */
+            margin-bottom: 30px; /* 设置下外边距为20px */
+        }
+
+        .errorMessage a {
+            display: inline-block; /* 将链接设置为块级元素，以便设置宽度和高度 */
+            padding: 10px 20px; /* 设置内边距为10px上下，20px左右 */
+            border: 2px solid #000; /* 设置边框为2px黑色实线 */
+            border-radius: 10px; /* 设置圆角为5px */
+            text-decoration: none; /* 去除下划线 */
+            color: #000; /* 设置字体颜色为黑色 */
+            font-weight: bold; /* 设置字体为粗体 */
+            transition: all 0.25s; /* 设置过渡效果 */
+        }
+
+        .errorMessage a:hover {
+            background-color: #000; /* 鼠标悬停时设置背景颜色为黑色 */
+            color: #fff; /* 鼠标悬停时设置字体颜色为白色 */
+        }
+    </style>
 </head>
 <body>
-<div align="center">
-    <h1>问卷未开启或不存在！</h1>
+<h3>⚠️拒绝访问提示⚠️</h3>
+<div  class="errorMessage">
+    <h1>抱歉，您访问的问卷未处于开启状态或不存在！</h1>
     <a onclick="history.back()">返回</a>
 </div>
 </body>

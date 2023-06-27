@@ -1,5 +1,3 @@
-let answers = [];
-
 onload = () => {
     $('#usernameMarquee').text("当前问卷作答人：" + $util.getPageParam("username"))
     $('#questionnaireTitle').text($util.getPageParam("previewTitle"))

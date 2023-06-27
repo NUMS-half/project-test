@@ -301,14 +301,14 @@ public class QuestionnaireController {
                     answerEntityList.add(answer);
                     break;
                 case 4:
-                    List<Map<String,Object>> optionList1 = (ArrayList<Map<String,Object>>) map.get("optionId");
-                    for(Map<String,Object> m : optionList1) {
+                    List<Map<String, Object>> optionList1 = (ArrayList<Map<String, Object>>) map.get("optionId");
+                    for ( Map<String, Object> m : optionList1 ) {
                         AnswerEntity newAnswer = new AnswerEntity();
                         newAnswer.setQuestionnaireId(answer.getQuestionnaireId());
                         newAnswer.setType(type);
                         newAnswer.setQuestionId(answer.getQuestionId());
                         newAnswer.setRespondent(answer.getRespondent());
-                        newAnswer.setOptionId((String)m.get("id"));
+                        newAnswer.setOptionId((String) m.get("id"));
                         newAnswer.setLeftTitle((String) m.get("leftTitle"));
                         answerEntityList.add(newAnswer);
                     }
@@ -336,7 +336,7 @@ public class QuestionnaireController {
      * 查看问卷回答明细
      */
     @PostMapping(value = "/seeAnswerSheet", headers = "Accept=application/json")
-    public HttpResponseEntity seeAnswerSheet(@RequestBody Map<String, Object> answerInfo){
+    public HttpResponseEntity seeAnswerSheet(@RequestBody Map<String, Object> answerInfo) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
 
         String questionnaireId = (String) answerInfo.get("id");
@@ -374,6 +374,29 @@ public class QuestionnaireController {
             httpResponseEntity.setData(params);
             httpResponseEntity.setMessage("明细查看成功");
         }
+        return httpResponseEntity;
+    }
+
+    @PostMapping(value = "/answeredCheck", headers = "Accept=application/json")
+    public HttpResponseEntity answeredCheck(@RequestBody Map<String, Object> checkInfo) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+
+        String inputId = (String) checkInfo.get("id");
+        String inputName = (String) checkInfo.get("respondent");
+        List<Map<String, Object>> list = answerService.answeredCheck();
+        for ( Map<String, Object> map : list ) {
+            String hasId = (String) map.get("questionnaire_id");
+            String hasName = (String) map.get("respondent");
+            if ( hasId.equals(inputId) && hasName.equals(inputName) ) {
+                httpResponseEntity.setCode("0");
+                httpResponseEntity.setData(0);
+                httpResponseEntity.setMessage("该用户已经作答过本问卷，不需再次作答");
+                return httpResponseEntity;
+            }
+        }
+        httpResponseEntity.setCode("666");
+        httpResponseEntity.setMessage("身份确认成功");
+        httpResponseEntity.setData(inputName);
         return httpResponseEntity;
     }
 

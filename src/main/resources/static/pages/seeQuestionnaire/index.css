@@ -101,7 +101,7 @@ tbody tr:hover {
     max-width: 800px;
 }
 
-.pagination-link {
+.pagination a {
     display: block;
     padding: 10px 15px;
     border: none;
@@ -114,13 +114,13 @@ tbody tr:hover {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.pagination-link:hover {
+.pagination a:hover {
     background-color: #f8f9fb;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transform: translate(0, -2px);
 }
 
-.pagination-link.active {
+.pagination a.active {
     background-color: #0099ff;
     color: #fff;
     font-weight: 600;
