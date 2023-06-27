@@ -92,6 +92,7 @@ onload = () => {
                         labels: mergedArray.map(item => item.choose_term),
                         datasets: [
                             {
+                                label: '选项人次',
                                 data: mergedArray.map(item => item.option_count),
                                 backgroundColor: [
                                     '#FF6384',
@@ -104,7 +105,25 @@ onload = () => {
                             }
                         ]
                     },
-                    options: {}
+                    options: {
+                        plugins: {
+                            legend: {
+                                position: 'center'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        const dataset = context.dataset || {};
+                                        const total = dataset.data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                                        const percentage = value / total * 100;
+                                        return label + ': ' + percentage.toFixed(2) + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
                 });
                 break;
 
@@ -118,6 +137,7 @@ onload = () => {
                         labels: mergedArray.map(item => item.choose_term),
                         datasets: [
                             {
+                                label: '选项人次',
                                 data: mergedArray.map(item => item.option_count),
                                 backgroundColor: [
                                     '#FF6384',
@@ -130,7 +150,25 @@ onload = () => {
                             }
                         ]
                     },
-                    options: {}
+                    options: {
+                        plugins: {
+                            legend: {
+                                position: 'center'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        const dataset = context.dataset || {};
+                                        const total = dataset.data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                                        const percentage = value / total * 100;
+                                        return label + ': ' + percentage.toFixed(2) + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
                 });
                 break;
 
@@ -144,12 +182,17 @@ onload = () => {
                         labels: mergedArray.map(item => item.choose_term),
                         datasets: [
                             {
+                                label: '选项人次',
                                 data: mergedArray.map(item => item.option_count),
-                                backgroundColor: '#4BC0C0'
+                                backgroundColor: '#36A2EB'
                             }
                         ]
                     },
-                    options: {}
+                    options: {
+                        legend: {
+                            display: false
+                        }
+                    }
                 });
                 break;
 
@@ -163,13 +206,18 @@ onload = () => {
                         labels: mergedArray.map(item => item.choose_term),
                         datasets: [
                             {
+                                label: '选项人次',
                                 data: mergedArray.map(item => item.option_count),
                                 borderColor: '#4BC0C0',
                                 fill: false
                             }
                         ]
                     },
-                    options: {}
+                    options: {
+                        legend: {
+                            display: false
+                        }
+                    }
                 });
                 break;
         }
@@ -180,8 +228,7 @@ onload = () => {
         return chart;
     }
 
-
-    // 默认显示表格
+    // 默认显示为表格
     generateChart('table');
 
     // 监听radio按钮的change事件

@@ -4,9 +4,10 @@
 }
 
 .question-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: bolder;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .question-statistics table {
@@ -30,5 +31,18 @@
 .chart-container {
     margin-left: 270px;
     max-width: 800px;
-    max-height: 500px;
+    max-height: 425px;
+}
+
+.chart-options label {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.chart-options input[type="radio"].chartType:checked + label {
+    background-color: #67b9f3; /* 设置选中状态下边框颜色 */
 }

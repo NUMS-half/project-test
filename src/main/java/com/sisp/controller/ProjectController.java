@@ -170,7 +170,7 @@ public class ProjectController {
         String inputDescription = (String) map.get("questionDescription");
         try {
             List<Map<String, Object>> answerInfo = projectService.querySameQuestionStat(inputId, inputDescription);
-            if ( CollectionUtils.isEmpty(answerInfo) ) {
+            if ( CollectionUtils.isEmpty(answerInfo) || Integer.parseInt(answerInfo.get(0).get("option_count").toString()) == 0 ) {
                 httpResponseEntity.setCode("0");
                 httpResponseEntity.setData(null);
                 httpResponseEntity.setMessage("该问题暂无在其他问卷中的作答信息！");
