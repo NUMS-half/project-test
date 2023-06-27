@@ -11,55 +11,13 @@
 <div class="container">
     <h1 class="title">问卷结果</h1>
     <div id="similar-questions">
-        <div class="question-number">第1题: 题目1</div>
         <div class="question-statistics">
-            <!-- Add your statistics for similar questions here -->
             <button onclick="generateSimilarQuestionStatistics()">同类问题统计</button>
         </div>
     </div>
     <div id="chart-container">
         <canvas id="chart-canvas"></canvas>
-        <table>
-            <tr>
-                <th>选项</th>
-                <th>小计</th>
-                <th>比例</th>
-            </tr>
-            <tr>
-                <td>选项1</td>
-                <td class="count">1507 人次</td>
-                <td>
-                    <div class="chart-wrap">
-                        <div class="chart chart-pie"></div>
-                        <div class="chart-details">15.07%</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>选项2</td>
-                <td class="count">6895 人次</td>
-                <td>
-                    <div class="chart-wrap">
-                        <div class="chart chart-pie"></div>
-                        <div class="chart-details">68.95%</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>选项3</td>
-                <td class="count">1598 人次</td>
-                <td>
-                    <div class="chart-wrap">
-                        <div class="chart chart-pie"></div>
-                        <div class="chart-details">15.98%</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>本题有效填写人数</td>
-                <td id="valid-count" colspan="2"></td>
-            </tr>
-        </table>
+        <div id="questions-statistics"></div>
     </div>
 
     <div class="chart-menu">
