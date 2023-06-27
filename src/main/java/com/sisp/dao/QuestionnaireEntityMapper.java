@@ -1,6 +1,5 @@
 package com.sisp.dao;
 
-import com.sisp.dao.entity.QuestionEntity;
 import com.sisp.dao.entity.QuestionnaireEntity;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;

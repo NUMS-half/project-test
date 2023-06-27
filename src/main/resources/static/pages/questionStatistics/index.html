@@ -1,34 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>问卷结果</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="../../static/bootstrap-3.4.1/css/bootstrap.min.css">
+    <script src="../../static/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+    <script src="../../static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+    <script src="../../my-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
-<div class="container">
-    <h1 class="title">问卷结果</h1>
-    <div id="similar-questions">
-        <div class="question-statistics">
-            <button onclick="generateSimilarQuestionStatistics()">同类问题统计</button>
-        </div>
-    </div>
-    <div id="chart-container">
-        <canvas id="chart-canvas"></canvas>
-        <div id="questions-statistics"></div>
-    </div>
+<div id="headerPage"></div>
 
-    <div class="chart-menu">
-        <button class="pie-btn active" onclick="showChart('chart-pie')">饼状图</button>
-        <button class="donut-btn" onclick="showChart('chart-donut')">圆环图</button>
-        <button class="bar-btn" onclick="showChart('chart-bar')">柱形图</button>
-        <button class="line-btn" onclick="showChart('chart-line')">折线图</button>
-        <button class="table-btn" onclick="showChart('chart-table')">表格</button>
+<div class="container">
+    <h1 id="questionnaireTitle">问卷结果</h1>
+    <div id="chart-container">
+        <div id="questions-statistics">
+
+        </div>
     </div>
 </div>
 
+<script type="module" src="../../utils/index.js"></script>
 <script src="./index.js"></script>
 </body>
 </html>

@@ -258,11 +258,13 @@ const handleQuestionnaireDelete = (id, status) => {
 
 const handleQuestionnaireStatistics = (id) => {
     console.log("点击统计问卷")
+
+    $util.setPageParam("questionnaireId", id)
+    location.href = "/pages/questionStatistics/index.html"
 }
 
 const handleQuestionnaireClose = (id) => {
-    console.log("点击关闭问卷")
-
+    // console.log("点击关闭问卷")
     if (!confirm("您确定要关闭此问卷的发布状态吗？")) return
 
     let params = {

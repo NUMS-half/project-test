@@ -428,7 +428,7 @@ public class QuestionnaireController {
         return httpResponseEntity;
     }
 
-    /**questionnaireStatistic
+    /**
      * 获取问题列表的工具方法
      */
     private List<Map<String, Object>> getQuestionList(List<QuestionEntity> list) {
