@@ -40,6 +40,15 @@ public interface ProjectEntityMapper {
     @MapKey("id")
     List<Map<String,Object>> queryProjectQuestionnaire(@Param("project") ProjectEntity project);
 
+    /**
+     * 获取工程下的答卷记录
+     */
     @MapKey("id")
     List<Map<String,Object>> queryQuestionnaireAnswers(@Param("projectId") String id, @Param("respondent") String respondent);
+
+    /**
+     * 获取不同问卷相同问题的回答
+     */
+    @MapKey("questionnaire_name")
+    List<Map<String,Object>> querySameQuestionStat(@Param("projectId") String id, @Param("question") String questionName);
 }

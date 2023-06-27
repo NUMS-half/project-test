@@ -10,9 +10,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 40px auto;
+    margin: 10px auto;
     max-width: 800px;
-    padding: 20px;
+    padding: 10px;
     background-color: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 20px;

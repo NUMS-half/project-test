@@ -74,4 +74,15 @@
         </if>
         GROUP BY q.id, q.questionnaire_name, a.respondent
     </select>
+    
+    <select id="querySameQuestionStat" resultType="java.util.HashMap">
+        SELECT q.questionnaire_name, qi.question_description, o.id, o.choose_term, COUNT(a.option_id) AS option_count
+        FROM questionnaire_info q
+                 JOIN question_info qi ON q.id = qi.questionnaire_id
+                 JOIN answer_info a ON qi.id = a.question_id
+                 LEFT JOIN option_info o ON a.option_id = o.id
+        WHERE qi.question_description = #{question}
+          AND q.project_id = #{projectId}
+        GROUP BY q.project_id, q.questionnaire_name, qi.question_description, o.id, o.choose_term;
+    </select>
 </mapper>

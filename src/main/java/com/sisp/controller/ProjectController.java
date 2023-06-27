@@ -156,6 +156,34 @@ public class ProjectController {
             httpResponseEntity.setData(0);
             httpResponseEntity.setMessage("查询时发生异常，请稍后重试！");
         }
+        return httpResponseEntity;
+    }
+
+    /**
+     * 获取相同问题在不同问卷中的回答
+     */
+    @PostMapping(value = "/querySameQuestionStatistic", headers = "Accept=application/json")
+    public HttpResponseEntity querySameQuestionStatistic(@RequestBody Map<String, Object> map) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+
+        String inputId = (String) map.get("projectId");
+        String inputDescription = (String) map.get("questionDescription");
+        try {
+            List<Map<String, Object>> answerInfo = projectService.querySameQuestionStat(inputId, inputDescription);
+            if ( CollectionUtils.isEmpty(answerInfo) ) {
+                httpResponseEntity.setCode("0");
+                httpResponseEntity.setData(null);
+                httpResponseEntity.setMessage("该问题暂无在其他问卷中的作答信息！");
+            } else {
+                httpResponseEntity.setCode("666");
+                httpResponseEntity.setData(answerInfo);
+                httpResponseEntity.setMessage("查询成功");
+            }
+        } catch ( Exception e ) {
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("查询时发生异常，请稍后重试！");
+        }
 
         return httpResponseEntity;
     }

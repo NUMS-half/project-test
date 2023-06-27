@@ -257,8 +257,9 @@ const handleQuestionnaireDelete = (id, status) => {
 }
 
 const handleQuestionnaireStatistics = (id) => {
-    console.log("点击统计问卷")
+    // console.log("点击统计问卷")
 
+    $util.setPageParam("projectId", $util.getPageParam('seeProject'))
     $util.setPageParam("questionnaireId", id)
     location.href = "/pages/questionStatistics/index.html"
 }

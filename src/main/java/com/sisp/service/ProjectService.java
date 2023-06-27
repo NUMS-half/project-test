@@ -71,4 +71,10 @@ public class ProjectService {
         return projectEntityMapper.queryQuestionnaireAnswers(projectId, respondent);
     }
 
+    /**
+     * 获取不同问卷相同问题的回答
+     */
+    public List<Map<String,Object>> querySameQuestionStat(String projectId, String questionName) {
+        return projectEntityMapper.querySameQuestionStat(projectId,questionName);
+    }
 }

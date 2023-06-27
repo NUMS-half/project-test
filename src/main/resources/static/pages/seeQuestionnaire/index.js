@@ -3,6 +3,7 @@ let currentPage = 1;
 let recordsPerPage = 5;
 
 onload = () => {
+    $('#headerDivB').text('答卷查看')
     fetchQuestionnaireList($util.getPageParam("projectId"), '');
     displayPagination();
 }

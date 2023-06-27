@@ -1,5 +1,7 @@
 let data;
 onload = () => {
+    $('#headerDivB').text('问卷统计')
+
     let params = {
         id: $util.getPageParam("questionnaireId")
     }
@@ -126,7 +128,7 @@ const loadList = (questions) => {
         questionStatisticsContainer.appendChild(questionTitle);
         questionStatisticsContainer.innerHTML += `
         <div class="chart-menu">
-        <button style="color: #0044ee" onclick="generateSimilarQuestionStatistics()">同类问题统计</button>&nbsp;
+        <button style="color: #0044ee" onclick="generateSimilarQuestionStatistics('${question.question_description}')">同类问题统计</button>&nbsp;
             <button class="table-btn" onclick="showTable(${i})">表格</button>&nbsp;
             <button class="bar-btn" onclick="showChart(${i})">柱状图</button>
         </div>`
@@ -215,4 +217,27 @@ function generateChart(question, container) {
             }
         }
     });
+}
+
+function generateSimilarQuestionStatistics(questionDescription) {
+    let params = {
+        projectId: $util.getPageParam("projectId"),
+        questionDescription: questionDescription
+    }
+
+    $.ajax({
+        url: API_BASE_URL + '/querySameQuestionStatistic',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            if (res.code === "666") {
+                $util.setPageParam("answerInfo", res.data)
+                location.href = '/pages/statisticByQuestion/index.html'
+            } else {
+                alert(res.message)
+            }
+        }
+    })
 }
