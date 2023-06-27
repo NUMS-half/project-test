@@ -138,10 +138,10 @@ public class ProjectController {
      * 获取问卷回答信息
      */
     @PostMapping(value = "/queryQuestionnaireRespondent", headers = "Accept=application/json")
-    public HttpResponseEntity queryQuestionnaireRespondent(@RequestBody ProjectEntity project) {
+    public HttpResponseEntity queryQuestionnaireRespondent(@RequestBody Map<String,Object> queryInfo) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
         try {
-            List<Map<String, Object>> questionnaireAnswers = projectService.queryQuestionnaireAnswers(project);
+            List<Map<String, Object>> questionnaireAnswers = projectService.queryQuestionnaireAnswers((String) queryInfo.get("projectId"), (String) queryInfo.get("respondent"));
             if ( CollectionUtils.isEmpty(questionnaireAnswers) ) {
                 httpResponseEntity.setCode("0");
                 httpResponseEntity.setData(null);

@@ -1,42 +1,117 @@
-// 假设这里有一个包含问卷数据的数组
-var questionnaireData = [
-    { name: "问卷1", respondent: "答卷人1", time: "2023-06-01" },
-    { name: "问卷2", respondent: "答卷人2", time: "2023-06-02" },
-    { name: "问卷3", respondent: "答卷人3", time: "2023-06-03" },
-    // 这里可以添加更多数据
-];
+let questionnaireData = [];
+let currentPage = 1;
+let recordsPerPage = 5;
 
-var currentPage = 1;
-var recordsPerPage = 5;
+onload = () => {
+    fetchQuestionnaireList($util.getPageParam("projectId"), '');
+    displayPagination();
+}
+
+const fetchQuestionnaireList = (id, respondent) => {
+    let params = {
+        projectId: id,
+        respondent: respondent
+    }
+
+    // let map = new Map([['projectId', id], ['respondent', '']]);
+    $.ajax({
+        url: API_BASE_URL + '/queryQuestionnaireRespondent',
+        type: "POST",
+        data: JSON.stringify(params),
+        dataType: "json",
+        contentType: "application/json",
+        success(res) {
+            if (res.code === "666") {
+                questionnaireData = [];
+                res.data.map(item => {
+                    questionnaireData.push({
+                        id: item["id"],
+                        name: item["questionnaire_name"],
+                        respondent: item["respondent"],
+                        time: item["answer_time"]
+                    })
+                })
+                console.log(questionnaireData);
+                displayTable();
+                displayPagination();
+            } else {
+                alert(res.message)
+            }
+        }
+    })
+}
 
 function displayTable() {
-    var table = document.getElementById("dataTable");
-    var tbody = table.getElementsByTagName("tbody")[0];
+    let table = document.getElementById("dataTable");
+    let tbody = table.getElementsByTagName("tbody")[0];
+
     tbody.innerHTML = "";
 
-    var startIndex = (currentPage - 1) * recordsPerPage;
-    var endIndex = startIndex + recordsPerPage;
-    var recordsToShow = questionnaireData.slice(startIndex, endIndex);
+    let startIndex = (currentPage - 1) * recordsPerPage;
+    let endIndex = startIndex + recordsPerPage;
+    let recordsToShow = questionnaireData.slice(startIndex, endIndex);
 
-    for (var i = 0; i < recordsToShow.length; i++) {
-        var record = recordsToShow[i];
-        var row = document.createElement("tr");
-        row.innerHTML = "<td>" + record.name + "</td><td>" + record.respondent + "</td><td>" + record.time + "</td><td><button>明细</button></td>";
+    for (let i = 0; i < recordsToShow.length; i++) {
+        let record = recordsToShow[i];
+        let row = document.createElement("tr");
+
+        let nameCell = document.createElement("td");
+        nameCell.textContent = record.name;
+        row.appendChild(nameCell);
+
+        let respondentCell = document.createElement("td");
+        respondentCell.textContent = record.respondent;
+        row.appendChild(respondentCell);
+
+        let timeCell = document.createElement("td");
+        timeCell.textContent = record.time;
+        row.appendChild(timeCell);
+
+        let buttonCell = document.createElement("td");
+        let detailButton = document.createElement("button");
+        detailButton.textContent = "明细";
+        // 添加点击事件处理程序
+        detailButton.onclick = function () {
+            handleShowDetail(record.id, record.respondent);
+        };
+        buttonCell.appendChild(detailButton);
+        row.appendChild(buttonCell);
+
         tbody.appendChild(row);
     }
 }
 
+const handleShowDetail = (id, respondent) => {
+    console.log("点击明细" + id + "答卷人" + respondent)
+    $util.setPageParam("showId", id);
+    $util.setPageParam("showRespondent", respondent)
+    location.href = "/pages/seeAnswerSheet/index.html"
+}
+
 function displayPagination() {
-    var pagination = document.getElementById("pagination");
+    let pagination = document.getElementById("pagination");
     pagination.innerHTML = "";
 
-    var totalPages = Math.ceil(questionnaireData.length / recordsPerPage);
+    let totalPages = Math.ceil(questionnaireData.length / recordsPerPage);
 
-    for (var i = 1; i <= totalPages; i++) {
-        var link = document.createElement("a");
+    // Add previous button
+    let previousButton = document.createElement("a");
+    previousButton.href = "#";
+    previousButton.innerHTML = "&laquo;";
+    previousButton.onclick = function () {
+        if (currentPage > 1) {
+            currentPage--;
+            displayTable();
+            displayPagination();
+        }
+    };
+    pagination.appendChild(previousButton);
+
+    for (let i = 1; i <= totalPages; i++) {
+        let link = document.createElement("a");
         link.href = "#";
         link.innerHTML = i;
-        link.onclick = function() {
+        link.onclick = function () {
             currentPage = parseInt(this.innerHTML);
             displayTable();
             displayPagination();
@@ -48,17 +123,25 @@ function displayPagination() {
 
         pagination.appendChild(link);
     }
+
+    // Add next button
+    let nextButton = document.createElement("a");
+    nextButton.href = "#";
+    nextButton.innerHTML = "&raquo;";
+    nextButton.onclick = function () {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayTable();
+            displayPagination();
+        }
+    };
+    pagination.appendChild(nextButton);
 }
 
 function search() {
-    var searchTerm = document.getElementById("searchInput").value;
-
-    // 这里可以根据搜索条件过滤问卷数据，然后更新questionnaireData数组
-    // 为了简单起见，这里假设直接使用原始数据
-
+    let searchTerm = document.getElementById("searchInput").value;
     currentPage = 1;
-    displayTable();
-    displayPagination();
+    fetchQuestionnaireList($util.getPageParam("projectId"), searchTerm);
 }
 
 displayTable();

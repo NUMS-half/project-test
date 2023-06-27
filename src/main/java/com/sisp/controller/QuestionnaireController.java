@@ -103,28 +103,13 @@ public class QuestionnaireController {
         if ( questionnaireList.isEmpty() ) {
             httpResponseEntity.setCode("0");
             httpResponseEntity.setData(null);
-            httpResponseEntity.setMessage("无项目信息");
+            httpResponseEntity.setMessage("读取失败");
         } else {
             QuestionnaireEntity questionnaireEntity = questionnaireList.get(0);
 
             List<QuestionEntity> questionInfos = questionService.queryQuestion(question);
-            List<Map<String, Object>> questionList = new ArrayList<>();
+            List<Map<String, Object>> questionList = getQuestionList(questionInfos);
 
-            for ( QuestionEntity q : questionInfos ) {
-                OptionEntity option = new OptionEntity();
-                option.setQuestionId(q.getId());
-                List<Map<String, Object>> optionList = optionService.queryOption(option);
-
-                Map<String, Object> map = new HashMap<>();
-                map.put("questionId", q.getId());
-                map.put("problemName", q.getQuestionDescription());
-                map.put("mustAnswer", q.isMustAnswer());
-                map.put("type", q.getType());
-                map.put("leftTitle", q.getLeftTitle());
-                map.put("option", optionList);
-
-                questionList.add(map);
-            }
             Map<String, Object> params = new HashMap<>();
             params.put("id", questionnaireEntity.getId());
             params.put("questionnaireName", questionnaireEntity.getQuestionnaireName());
@@ -288,6 +273,7 @@ public class QuestionnaireController {
             int type = Integer.parseInt(map.get("type").toString());
 
             AnswerEntity answer = new AnswerEntity();
+            answer.setQuestionnaireId((String) map.get("questionnaireId"));
             answer.setType(type);
             answer.setQuestionId((String) map.get("questionId"));
             answer.setRespondent((String) map.get("respondent"));
@@ -302,6 +288,7 @@ public class QuestionnaireController {
                     List<String> optionList = (ArrayList<String>) map.get("optionId");
                     for ( String id : optionList ) {
                         AnswerEntity newAnswer = new AnswerEntity();
+                        newAnswer.setQuestionnaireId(answer.getQuestionnaireId());
                         newAnswer.setType(type);
                         newAnswer.setQuestionId(answer.getQuestionId());
                         newAnswer.setRespondent(answer.getRespondent());
@@ -314,13 +301,14 @@ public class QuestionnaireController {
                     answerEntityList.add(answer);
                     break;
                 case 4:
-                    List<Map<String,Object>> optionList1 = (ArrayList<Map<String,Object>>) map.get("optionId");
-                    for(Map<String,Object> m : optionList1) {
+                    List<Map<String, Object>> optionList1 = (ArrayList<Map<String, Object>>) map.get("optionId");
+                    for ( Map<String, Object> m : optionList1 ) {
                         AnswerEntity newAnswer = new AnswerEntity();
+                        newAnswer.setQuestionnaireId(answer.getQuestionnaireId());
                         newAnswer.setType(type);
                         newAnswer.setQuestionId(answer.getQuestionId());
                         newAnswer.setRespondent(answer.getRespondent());
-                        newAnswer.setOptionId((String)m.get("id"));
+                        newAnswer.setOptionId((String) m.get("id"));
                         newAnswer.setLeftTitle((String) m.get("leftTitle"));
                         answerEntityList.add(newAnswer);
                     }
@@ -341,7 +329,125 @@ public class QuestionnaireController {
             httpResponseEntity.setMessage("提交失败");
         }
 
-//        System.out.println(answerEntityList);
         return httpResponseEntity;
+    }
+
+    /**
+     * 查看问卷回答明细
+     */
+    @PostMapping(value = "/seeAnswerSheet", headers = "Accept=application/json")
+    public HttpResponseEntity seeAnswerSheet(@RequestBody Map<String, Object> answerInfo) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+
+        String questionnaireId = (String) answerInfo.get("id");
+        String respondent = (String) answerInfo.get("respondent");
+
+        AnswerEntity answer = new AnswerEntity();
+        answer.setQuestionnaireId(questionnaireId);
+        answer.setRespondent(respondent);
+
+        QuestionEntity question = new QuestionEntity();
+        question.setQuestionnaireId(questionnaireId);
+
+        QuestionnaireEntity questionnaire = new QuestionnaireEntity();
+        questionnaire.setId(questionnaireId);
+
+        questionnaire = questionnaireService.queryQuestionnaireList(questionnaire).get(0);
+        List<AnswerEntity> answerEntityList = answerService.queryAnswerList(answer);
+        List<QuestionEntity> questionEntityList = questionService.queryQuestion(question);
+
+        if ( questionnaire == null ) {
+            httpResponseEntity.setCode("0");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("查看明细失败");
+        } else {
+            List<Map<String, Object>> questionOptionList = getQuestionList(questionEntityList);
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("questionnaireId", questionnaireId);
+            params.put("questionnaireName", questionnaire.getQuestionnaireName());
+            params.put("questionnaireDescription", questionnaire.getQuestionnaireDescription());
+            params.put("questionOptionList", questionOptionList);
+            params.put("answerList", answerEntityList);
+
+            httpResponseEntity.setCode("666");
+            httpResponseEntity.setData(params);
+            httpResponseEntity.setMessage("明细查看成功");
+        }
+        return httpResponseEntity;
+    }
+
+    /**
+     * 对答题人是否已经作答进行检查
+     */
+    @PostMapping(value = "/answeredCheck", headers = "Accept=application/json")
+    public HttpResponseEntity answeredCheck(@RequestBody Map<String, Object> checkInfo) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+
+        String inputId = (String) checkInfo.get("id");
+        String inputName = (String) checkInfo.get("respondent");
+        List<Map<String, Object>> list = answerService.answeredCheck();
+        for ( Map<String, Object> map : list ) {
+            String hasId = (String) map.get("questionnaire_id");
+            String hasName = (String) map.get("respondent");
+            if ( hasId.equals(inputId) && hasName.equals(inputName) ) {
+                httpResponseEntity.setCode("0");
+                httpResponseEntity.setData(0);
+                httpResponseEntity.setMessage("该用户已经作答过本问卷，不需再次作答");
+                return httpResponseEntity;
+            }
+        }
+        httpResponseEntity.setCode("666");
+        httpResponseEntity.setMessage("身份确认成功");
+        httpResponseEntity.setData(inputName);
+        return httpResponseEntity;
+    }
+
+    /**
+     * 题目统计
+     */
+    @PostMapping(value = "/questionnaireStatistic", headers = "Accept=application/json")
+    public HttpResponseEntity questionnaireStatistic(@RequestBody QuestionnaireEntity questionnaire) {
+        HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
+        try {
+            List<Map<String, Object>> questionnaireList = questionnaireService.queryQuestionStat(questionnaire);
+            if ( CollectionUtils.isEmpty(questionnaireList) ) {
+                httpResponseEntity.setCode("0");
+                httpResponseEntity.setData(null);
+                httpResponseEntity.setMessage("无问卷的题目统计信息");
+            } else {
+                httpResponseEntity.setCode("666");
+                httpResponseEntity.setData(questionnaireList);
+                httpResponseEntity.setMessage("查询成功");
+            }
+        } catch ( Exception e ) {
+            httpResponseEntity.setCode("-1");
+            httpResponseEntity.setData(0);
+            httpResponseEntity.setMessage("查询时发生异常，请稍后重试！");
+        }
+        return httpResponseEntity;
+    }
+
+    /**questionnaireStatistic
+     * 获取问题列表的工具方法
+     */
+    private List<Map<String, Object>> getQuestionList(List<QuestionEntity> list) {
+        List<Map<String, Object>> questionList = new ArrayList<>();
+
+        for ( QuestionEntity q : list ) {
+            OptionEntity option = new OptionEntity();
+            option.setQuestionId(q.getId());
+            List<Map<String, Object>> optionList = optionService.queryOption(option);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("questionId", q.getId());
+            map.put("problemName", q.getQuestionDescription());
+            map.put("mustAnswer", q.isMustAnswer());
+            map.put("type", q.getType());
+            map.put("leftTitle", q.getLeftTitle());
+            map.put("option", optionList);
+            questionList.add(map);
+        }
+        return questionList;
     }
 }

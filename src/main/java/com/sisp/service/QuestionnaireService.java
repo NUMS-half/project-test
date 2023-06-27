@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class QuestionnaireService {
@@ -47,5 +48,12 @@ public class QuestionnaireService {
             return 0;
         }
         return result;
+    }
+
+    /**
+     * 问卷题目统计
+     */
+    public List<Map<String, Object>> queryQuestionStat(QuestionnaireEntity questionnaire) {
+        return questionnaireEntityMapper.queryQuestionStat(questionnaire);
     }
 }
