@@ -1,29 +1,30 @@
 package com.sisp.service;
 
+import com.sisp.DemoApplicationTests;
+import com.sisp.controller.ProjectController;
 import com.sisp.dao.entity.ProjectEntity;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
-@SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProjectServiceTest {
-
     @Autowired
-    private ProjectService projectService;
-
-    Logger log = Logger.getLogger(ProjectServiceTest.class);
+    private  ProjectService projectService;
+    Logger log = Logger.getLogger(DemoApplicationTests.class);
 
     @Test
     public void queryProjectList() {
@@ -55,6 +56,50 @@ public class ProjectServiceTest {
 
     @Test
     public void addProjectInfo() {
+        ProjectEntity project = new ProjectEntity();
+        project.setProjectName("t" + new Random().nextInt(10000) + 1);
+        project.setProjectContent("project_service_ add_test");
+        project.setUserId("8ceeee2995f3459ba1955f85245dc7a5");
+        project.setCreatedBy("admin");
+        project.setLastUpdatedBy("admin");
+
+        int result = projectService.addProjectInfo(project);
+
+        if ( result == 0 ) {
+            log.error(">>test ProjectService: addProjectInfo项目添加测试失败");
+        } else {
+            log.info(">>test ProjectService: addProjectInfo项目添加测试成功");
+        }
+
+        //assertion
+        assertEquals(1, result);
+    }
+
+    @Test
+    @Transactional
+    public void testProjectServiceModifyProjectInfo() {
+        ProjectEntity project = new ProjectEntity();
+        ProjectEntity project2 = new ProjectEntity();
+
+        project.setId("1775449254544479b93311dcf6077ec8");
+        project.setProjectName("修改后的第三个测试项目名称");
+        project2.setId("1775449254544479b93311dcf6077ec8");
+        project2.setProjectName("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+        int result = projectService.modifyProjectInfo(project);
+        int result2 = projectService.modifyProjectInfo(project2);
+
+        if ( result == 0 || result2 != 0 ) {
+            log.error(">>test ProjectService: modifyProjectInfo项目修改测试失败");
+        } else {
+            log.info(">>test ProjectService: modifyProjectInfo项目修改测试成功");
+        }
+
+        //assertions
+        assertEquals(1, result);
+        assertEquals(0, result2);
     }
 
     @Test
@@ -66,8 +111,14 @@ public class ProjectServiceTest {
     }
 
     @Test
+    public void queryProjectQuestionnaire() {
+    }
+
+    @Test
     public void queryQuestionnaireAnswers() {
-        List<Map<String,Object>> result = projectService.queryQuestionnaireAnswers("4cd6ccb65c894eafaa70b12330f8c2f8", "aaaaaa");
-        System.out.println(result);
+    }
+
+    @Test
+    public void querySameQuestionStat() {
     }
 }
