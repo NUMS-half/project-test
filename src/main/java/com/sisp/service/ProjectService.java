@@ -36,15 +36,6 @@ public class ProjectService {
         return 1;
     }
 
-    public int addProjectInfo1(ProjectEntity projectEntity) {
-        try {
-            projectEntityMapper.insert(projectEntity);
-        } catch ( Exception e ) {
-            return 0;
-        }
-        return 1;
-    }
-
     /**
      * 修改项目
      */

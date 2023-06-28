@@ -53,11 +53,6 @@ public class QuestionnaireControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @Before
-    public void setup() {
-
-    }
-
     /**
      * 测试查询问卷列表
      */
@@ -79,37 +74,38 @@ public class QuestionnaireControllerTest {
      * 测试新建问卷
      */
     @Test
-    @Transactional
-    public void addQuestionnaireInfo() {
-        QuestionnaireEntity questionnaire1 = new QuestionnaireEntity();
-        QuestionnaireEntity questionnaire2 = new QuestionnaireEntity();
+    public void testAddQuestionnaireInfo_Success() {
+        MockitoAnnotations.initMocks(this);
+        QuestionnaireEntity questionnaire = new QuestionnaireEntity();
+        questionnaire.setId("111111");
 
-        questionnaire1.setQuestionnaireName("测试添加问卷");
-        questionnaire1.setQuestionnaireDescription("测试");
-        questionnaire1.setCreatedBy("admin");
-        questionnaire1.setCreationDate(new Date());
-        questionnaire1.setProjectId("333333");
-        questionnaire1.setType(0);
-        questionnaire1.setStartTime(new Date());
-        questionnaire1.setEndTime(new Date());
+        when(questionnaireService.addQuestionnaireInfo(questionnaire)).thenReturn(1);
 
-        questionnaire2.setQuestionnaireName("aaaaaaaaaasssssssssssssaaassssssaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        questionnaire2.setQuestionnaireDescription("测试");
-        questionnaire2.setCreatedBy("admin");
-        questionnaire2.setCreationDate(new Date());
-        questionnaire2.setProjectId("333333");
-        questionnaire2.setType(0);
-        questionnaire2.setStartTime(new Date());
-        questionnaire2.setEndTime(new Date());
+        // Act
+        HttpResponseEntity response = questionnaireController.addQuestionnaireInfo(questionnaire);
 
-        HttpResponseEntity result1 = questionnaireController.addQuestionnaireInfo(questionnaire1);
-        HttpResponseEntity result2 = questionnaireController.addQuestionnaireInfo(questionnaire2);
+        // Assert
+        assertEquals("666", response.getCode());
+        assertEquals(questionnaire.getId(), response.getData());
+        assertEquals("创建成功", response.getMessage());
+    }
 
-        //assertions
-        assertEquals("666", result1.getCode());
-        assertEquals("0", result2.getCode());
+    @Test
+    public void testAddQuestionnaireInfo_Failure() {
+        MockitoAnnotations.initMocks(this);
+        // Arrange
+        QuestionnaireEntity questionnaire = new QuestionnaireEntity();
+        // Set up any necessary data in the questionnaire object
+
+        when(questionnaireService.addQuestionnaireInfo(questionnaire)).thenReturn(0);
+
+        // Act
+        HttpResponseEntity response = questionnaireController.addQuestionnaireInfo(questionnaire);
+
+        // Assert
+        assertEquals("0", response.getCode());
+        assertEquals(0, response.getData());
+        assertEquals("创建失败,请检查输入是否合法！", response.getMessage());
     }
 
     /**
