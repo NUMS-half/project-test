@@ -31,6 +31,7 @@ import java.util.Random;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
+public
 class DemoApplicationTests {
 
     @Autowired
@@ -487,8 +488,8 @@ class DemoApplicationTests {
      * test ProjectService
      */
 
-//    @Test
-//    void testProjectServiceQueryProjectList() {
+    @Test
+    void testProjectServiceQueryProjectList() {
 //        ProjectEntity project1 = new ProjectEntity();
 //        ProjectEntity project2 = new ProjectEntity();
 //        project1.setProjectName("");
@@ -513,7 +514,7 @@ class DemoApplicationTests {
 //        //assertions
 //        assertFalse(result1);
 //        assertFalse(result2);
-//    }
+    }
 
     @Test
     @Transactional
