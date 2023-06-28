@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -21,15 +22,21 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,18 +49,13 @@ public class QuestionnaireControllerTest {
     @Mock
     @Autowired
     private QuestionnaireService questionnaireService;
-
-    @Mock
-    private QuestionService questionService;
-    @Mock
-    private OptionService optionService;
     private MockMvc mockMvc;
-    private MockHttpSession session;
-    private MockHttpServletResponse response;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Before
     public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(questionnaireController).build();
+
     }
 
     /**
@@ -127,7 +129,6 @@ public class QuestionnaireControllerTest {
         //assertion
         assertEquals("666", result1.getCode());
         assertEquals("0", result2.getCode());
-        ;
     }
 
     /**
@@ -136,12 +137,15 @@ public class QuestionnaireControllerTest {
     @Test
     @Transactional
     public void testSetQuestionnaireStatus_publishSuccess() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(new QuestionnaireController()).build();
         // 创建一个测试用的 QuestionnaireEntity 对象
         QuestionnaireEntity questionnaire = new QuestionnaireEntity();
         questionnaire.setStatus(0);
 
         // 模拟 questionnaireService.modifyQuestionnaireInfo 方法返回成功
-        Mockito.when(questionnaireService.modifyQuestionnaireInfo(questionnaire)).thenReturn(1);
+        when(questionnaireService.modifyQuestionnaireInfo(questionnaire)).thenReturn(1);
 
         // 调用 setQuestionnaireStatus 方法
         HttpResponseEntity response = questionnaireController.setQuestionnaireStatus(questionnaire);
@@ -161,12 +165,15 @@ public class QuestionnaireControllerTest {
     @Test
     @Transactional
     public void testSetQuestionnaireStatus_publishFailure() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(new QuestionnaireController()).build();
         // 创建一个测试用的 QuestionnaireEntity 对象
         QuestionnaireEntity questionnaire = new QuestionnaireEntity();
         questionnaire.setStatus(0);
 
         // 模拟 questionnaireService.modifyQuestionnaireInfo 方法返回失败
-        Mockito.when(questionnaireService.modifyQuestionnaireInfo(questionnaire)).thenReturn(0);
+        when(questionnaireService.modifyQuestionnaireInfo(questionnaire)).thenReturn(0);
 
         // 调用 setQuestionnaireStatus 方法
         HttpResponseEntity response = questionnaireController.setQuestionnaireStatus(questionnaire);

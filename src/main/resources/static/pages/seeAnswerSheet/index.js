@@ -42,7 +42,7 @@ onload = () => {
                             problemHTML += `
           <div style="display: flex; align-items: center; margin-bottom: 3px;">
             <label class="radio-inline">
-              <input type="radio" id="${optionId}" name="chooseTerm${index + 1}">${chooseTerm}
+              <input disabled type="radio" id="${optionId}" name="chooseTerm${index + 1}">${chooseTerm}
             </label>
           </div>
         `;
@@ -56,14 +56,14 @@ onload = () => {
                             problemHTML += `
           <div style="display: flex; align-items: center; margin-bottom: 3px;">
             <label class="checkbox-inline">
-              <input type="checkbox" id="${optionId}" name="chooseTerm${index + 1}">${chooseTerm}
+              <input disabled type="checkbox" id="${optionId}" name="chooseTerm${index + 1}">${chooseTerm}
             </label>
           </div>
         `;
                         });
                     } else if (type === 3) {
                         problemHTML += `
-        <textarea class="form-control" placeholder="请输入" rows="4" style="width: 70%;"></textarea>
+        <textarea disabled class="form-control" placeholder="请输入" rows="4" style="width: 70%;"></textarea>
       `;
                     } else if (type === 4) {
                         const leftTitle = problem.leftTitle ? problem.leftTitle.split(',') : [];
@@ -95,7 +95,7 @@ onload = () => {
 
                             options.forEach((option) => {
                                 const optionId = option["id"];
-                                problemHTML += `<td><input type="radio" id="${optionId}" name="chooseTerm${index + 1}_${rowIndex + 1}" /></td>`;
+                                problemHTML += `<td><input disabled type="radio" id="${optionId}" name="chooseTerm${index + 1}_${rowIndex + 1}" /></td>`;
                             });
 
                             problemHTML += `
@@ -120,7 +120,7 @@ onload = () => {
           <div>${option["choose_term"]}</div>
           <div>
             <label class="radio-inline">
-              <input type="radio" id="${optionId}" name="fraction${index + 1}" />${fraction}
+              <input disabled type="radio" id="${optionId}" name="fraction${index + 1}" />${fraction}
             </label>
           </div>
         `;

@@ -27,14 +27,22 @@ public class ProjectService {
      * 增加项目
      */
     public int addProjectInfo(ProjectEntity projectEntity) {
-        int result;
         projectEntity.setId(UUIDUtil.getOneUUID());
         try {
-            result = projectEntityMapper.insert(projectEntity);
+            projectEntityMapper.insert(projectEntity);
         } catch ( Exception e ) {
             return 0;
         }
-        return result;
+        return 1;
+    }
+
+    public int addProjectInfo1(ProjectEntity projectEntity) {
+        try {
+            projectEntityMapper.insert(projectEntity);
+        } catch ( Exception e ) {
+            return 0;
+        }
+        return 1;
     }
 
     /**

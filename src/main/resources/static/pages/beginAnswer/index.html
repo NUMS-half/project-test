@@ -14,14 +14,65 @@
     <script src="../../static//bootstrap-3.4.1/js/bootstrap-datetimepicker.min.js"></script>
     <script src="../../static//bootstrap-3.4.1/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="../../my-config.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .container input[type="text"],
+        .container input[type="button"] {
+            display: block;
+            width: 350px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        .container input[type="text"]:focus,
+        .container input[type="button"]:hover {
+            border-color: #a0a0a0;
+        }
+
+        #btn {
+            background-color: #337ab7;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        #btn:hover {
+            background-color: #23527c;
+        }
+
+    </style>
 </head>
 <body>
 
-<label>
-    <input id="userNameInput" type="text" placeholder="请输入您的用户名">
-</label>
+<div class="container">
+    <h1 align="center">欢迎您作答此问卷！</h1>
+    <label>
+        <input id="userNameInput" type="text" placeholder="请输入您的用户名">
+    </label>
 
-<input id="btn" type="button" value="点击去作答问卷" onclick="goToAnswer()">
+    <input id="btn" type="button" value="点击去作答问卷" onclick="goToAnswer()">
+</div>
 
 <script type="module" src="../../utils/index.js"></script>
 <script src="../common/header/index.js"></script>

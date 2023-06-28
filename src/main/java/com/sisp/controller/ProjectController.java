@@ -48,10 +48,9 @@ public class ProjectController {
     @PostMapping(value = "/addProjectInfo", headers = "Accept=application/json")
     public HttpResponseEntity addProjectInfo(@RequestBody ProjectEntity project) {
         HttpResponseEntity httpResponseEntity = new HttpResponseEntity();
-        int result = projectService.addProjectInfo(project);
-        if ( result != 0 ) {
+        if ( projectService.addProjectInfo1(project) != 0 ) {
             httpResponseEntity.setCode("666");
-            httpResponseEntity.setData(result);
+            httpResponseEntity.setData(1);
             httpResponseEntity.setMessage("创建成功");
         } else {
             httpResponseEntity.setCode("0");
